@@ -1,6 +1,7 @@
---Periodic Announcements
---A 3Ra Gaming creation
---List of announcements that are printed periodically, going through the list.
+-- Periodic announcements and intro messages
+-- A 3Ra Gaming creation
+
+-- List of announcements that are printed periodically, going through the list.
 local announcements = {
 	{"msg-announce1"},
 	{"msg-announce2"}
@@ -12,7 +13,8 @@ local intros = {
 	{"msg-intro2"},
 	{"msg-intro3"}
 }
-
+-- Go through the announcements, based on the delay set in config
+-- @param event on_tick event
 local function show_announcement(event)
 	global.last_announcement = global.last_announcement or 0
 	if (game.tick / 60 - global.last_announcement > scenario.config.announcement_delay) then
@@ -23,6 +25,8 @@ local function show_announcement(event)
 	end
 end
 
+-- Show introduction messages to players upon joining
+-- @param event
 local function show_intro(event)
 	local player = game.players[event.player_index]
 	for i,v in ipairs(intros) do
@@ -30,5 +34,6 @@ local function show_intro(event)
 	end
 end
 
+-- Event handlers
 Event.register(defines.events.on_tick, show_announcement)
 Event.register(defines.events.on_player_created, show_intro)
