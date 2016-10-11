@@ -595,7 +595,7 @@ function on_robot_built_entity(event)
 	if (entity and entity.type == "assembling-machine" and entity.recipe and not entity.recipe.enabled) then
 		entity.recipe = nil
 	end
-end)
+end
 
 Event.register(-1,on_init)
 Event.register(defines.events.on_player_created, player_joined)
