@@ -7,7 +7,7 @@ local announcements = {
 	{"msg-announce2"}
 }
 
---List of introductory messages that players are shown upon joining (in order).
+-- List of introductory messages that players are shown upon joining (in order).
 local intros = {
 	{"msg-intro1"},
 	{"msg-intro2"},
