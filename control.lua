@@ -6,10 +6,10 @@ if not scenario.config then scenario.config = {} end
 require "config"
 require "locale/utils/event"
 require "locale/utils/admin"
+require "locale/utils/undecorator"
 require "announcements"
 require "gravestone"
 require "rocket"
-require "locale/utils/undecorator"
 require "autodeconstruct"
 require "bps"
 
