@@ -3,6 +3,7 @@
 if not scenario then scenario = {} end
 if not scenario.config then scenario.config = {} end
 --config and event must be called first.
+require "autodeconstruct"
 require "config"
 require "locale/utils/event"
 require "locale/utils/admin"
