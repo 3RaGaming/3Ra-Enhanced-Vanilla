@@ -3,6 +3,13 @@ require "locale/utils/utils"
 require "config"
 autodeconstruct = autodeconstruct or {}
 autodeconstruct.remove_target = true
+
+-- Find ore resources in a given area
+-- @param surface target surface
+-- @param position center position
+-- @param range range to search around center
+-- @param resource_category type of resources to find
+-- @return array of resources that match the category
 local function find_resources(surface, position, range, resource_category)
     local resource_category = resource_category or 'basic-solid'
     local top_left = {x = position.x - range, y = position.y - range}
@@ -18,6 +25,9 @@ local function find_resources(surface, position, range, resource_category)
     return categorized
 end
 
+-- Find all entities of a certain type on the map. Called only once per map.
+-- @param entity_type type of entity to find
+-- @return array of matching entities
 local function find_all_entities(entity_type)
     local surface = game.surfaces['nauvis']
     local entities = {}
@@ -31,6 +41,9 @@ local function find_all_entities(entity_type)
     return entities
 end
 
+-- Find an entity's target (output)
+-- @param entity entity to find output for
+-- @return LuaEntity target
 local function find_target(entity)
     if entity.drop_target then
         return entity.drop_target
@@ -41,6 +54,9 @@ local function find_target(entity)
     end
 end
 
+-- Find all mining drills with the same target
+-- @param entity the target to search for
+-- @return array of mining drills
 local function find_targeting(entity)
     local range = global.max_radius
     local position = entity.position
@@ -69,6 +85,9 @@ local function find_targeting(entity)
     return targeting
 end
 
+-- Find all mining drills that were mining a certain ore tile
+-- @param entity ore entity
+-- @return array of mining drills
 local function find_drills(entity)
     local position = entity.position
     local surface = entity.surface
@@ -88,6 +107,7 @@ local function find_drills(entity)
     end
 end
 
+-- Initialise globals
 function autodeconstruct.init_globals()
     global.max_radius = 0.99
     drill_entities = find_all_entities('mining-drill')
@@ -96,6 +116,7 @@ function autodeconstruct.init_globals()
     end
 end
 
+-- Handle resource depletion
 function autodeconstruct.on_resource_depleted(event)
     if event.entity.prototype.resource_category ~= 'basic-solid' or event.entity.prototype.infinite_resource ~= false then
         if global.debug then msg_all({"autodeconstruct-debug", "on_resource_depleted", game.tick .. " amount " .. event.entity.amount .. " resource_category " .. event.entity.prototype.resource_category .. " infinite_resource " .. (event.entity.prototype.infinite_resource == true and "true" or "false" )}) end
@@ -104,6 +125,8 @@ function autodeconstruct.on_resource_depleted(event)
     drill = find_drills(event.entity)
 end
 
+-- Check a mining drill for depletion and order deconstruction if so
+-- @param drill mining drill to check
 function autodeconstruct.check_drill(drill)
     if drill.mining_target ~= nil and drill.mining_target.valid then
         if drill.mining_target.amount > 0 then return end -- this should also filter out pumpjacks and infinite resources
@@ -124,12 +147,14 @@ function autodeconstruct.check_drill(drill)
     autodeconstruct.order_deconstruction(drill)
 end
 
+-- Handle cancelled deconstruction
 function autodeconstruct.on_canceled_deconstruction(event)
     if event.player_index ~= nil or event.entity.type ~= 'mining-drill' then return end
     if global.debug then msg_all({"autodeconstruct-debug", "on_canceled_deconstruction", util.positiontostr(event.entity.position) .. " deconstruction timed out, checking again"}) end
     autodeconstruct.check_drill(event.entity)
 end
 
+-- Handle placed entity
 function autodeconstruct.on_built_entity(event)
     if event.created_entity.type ~= 'mining-drill' then return end
     if event.created_entity.prototype.mining_drill_radius > global.max_radius then
@@ -137,7 +162,9 @@ function autodeconstruct.on_built_entity(event)
         if global.debug then msg_all({"autodeconstruct-debug", "on_built_entity", "global.max_radius updated to " .. global.max_radius}) end
     end
 end
-    
+
+-- Order drill deconstruction
+-- @param drill mining drill to deconstruct    
 function autodeconstruct.order_deconstruction(drill)
     if drill.to_be_deconstructed(drill.force) then
         if global.debug then msg_all({"autodeconstruct-debug", util.positiontostr(drill.position)" already marked"}) end
@@ -198,7 +225,8 @@ config.lua: autodeconstruct.wait_for_robots = false
     end
 end
 
-
+-- Message all players
+-- @param message message to sen
 function msg_all(message)
     if message[1] == "autodeconstruct-debug" then
         table.insert(message, 2, debug.getinfo(2).name)
