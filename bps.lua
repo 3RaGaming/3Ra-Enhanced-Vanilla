@@ -2,6 +2,8 @@ local BlueprintString = require "locale/blueprintstring/blueprintstring"
 BlueprintString.COMPRESS_STRINGS = true
 BlueprintString.LINE_LENGTH = 120
 
+-- Initialise player GUI
+-- @param player
 function init_gui(player)
 	if (not player.force.technologies["automated-construction"].researched) then
 		return
@@ -12,16 +14,21 @@ function init_gui(player)
 	end
 end
 
+-- Initialise map
 function on_init()
 	for _, player in pairs(game.players) do
 		init_gui(player)
 	end
 end
 
+-- Initialise player
+-- @param event on_player_joined event
 function player_joined(event)
 	init_gui(game.players[event.player_index])
 end
 
+-- Handle research completion
+-- @param event on_research_finished event
 function on_research_finished(event)
 	if (event.research.name == "automated-construction") then
 		for _, player in pairs(game.players) do
@@ -32,6 +39,8 @@ function on_research_finished(event)
 	end
 end
 
+-- Expand player's gui
+-- @param player target player
 function expand_gui(player)
 	local frame = player.gui.left["blueprint-string"]
 	if (frame) then
@@ -47,10 +56,17 @@ function expand_gui(player)
 	end
 end
 
+-- Trim string of whitespace 
+-- @param s string
+-- @return trimmed string
 function trim(s)
 	return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
+-- Get the amount of a certain item type in an inventory
+-- @param inventory inventory to filter
+-- @param type type of item to filter
+-- @return array of items
 function filter(inventory, type)
 	local stacks = {}
 	if (inventory) then
@@ -63,6 +79,9 @@ function filter(inventory, type)
 	return stacks
 end
 
+-- Return the blueprints inside a book
+-- @param book blueprint book item
+-- @return array of blueprints
 function book_inventory(book)
 	local blueprints = {}
 	local active = book.get_inventory(defines.inventory.item_active)
@@ -81,18 +100,31 @@ function book_inventory(book)
 	return blueprints
 end
 
+-- Check if the player is holding a blueprint
+-- @param player target player
+-- @return bool player is holding blueprint
 function holding_blueprint(player)
 	return (player.cursor_stack.valid_for_read and player.cursor_stack.type == "blueprint")
 end
 
+-- Check if the blueprint being held is empty
+-- @param player target player
+-- @return bool blueprint is not empty
 function holding_valid_blueprint(player)
 	return (holding_blueprint(player) and player.cursor_stack.is_blueprint_setup())
 end
 
+-- Check if the player is holding a blueprint book
+-- @param player target player
+-- @return bool player is holding book
 function holding_book(player)
 	return (player.cursor_stack.valid_for_read and player.cursor_stack.type == "blueprint-book")
 end
 
+-- Find a player's empty blueprint or craft one if unavailable
+-- @param player target player
+-- @param no_crafting if true then a blueprint will not be crafted, even if one is unavailable
+-- @return empty blueprint
 function find_empty_blueprint(player, no_crafting)
 	if (holding_blueprint(player)) then
 		if (player.cursor_stack.is_blueprint_setup()) then
@@ -131,6 +163,11 @@ function find_empty_blueprint(player, no_crafting)
 	return nil
 end
 
+-- Find an empty book, or craft one if unavailable
+-- @param player target player
+-- @param slots number of slots needed
+-- @param no_crafting bool to allow crafting or not
+-- @return empty blueprint book
 function find_empty_book(player, slots, no_crafting)
 	if (holding_book(player)) then
 		for _, page in pairs(book_inventory(player.cursor_stack)) do
@@ -190,6 +227,10 @@ function find_empty_book(player, slots, no_crafting)
 	return nil
 end
 
+-- Convert string into blueprint
+-- @param blueprint empty blueprint that the data will be loaded into
+-- @param data blueprint data
+-- @return error if one occurred
 function load_blueprint_data(blueprint, data)
 	if (not data.icons or type(data.icons) ~= "table" or #data.icons < 1) then
 		return {"unknown-format"}
@@ -222,6 +263,8 @@ function load_blueprint_data(blueprint, data)
 	return nil
 end
 
+-- Call the required functions to load a blueprint
+-- @param player player that is loading the blueprint
 function load_blueprint(player)
 	local textbox = player.gui.left["blueprint-string"]["blueprint-string-text"]
 	local data = trim(textbox.text)
@@ -354,6 +397,7 @@ function load_blueprint(player)
 end
 
 local duplicate_filenames
+-- Fix incorrect file name
 function fix_filename(player, filename)
 	if (#game.players > 1 and player.name and player.name ~= "") then
 		local name = player.name
@@ -374,6 +418,7 @@ function fix_filename(player, filename)
 end
 
 local blueprints_saved
+-- Save blueprint as file
 function blueprint_to_file(player, stack, filename)
 	local blueprint_format = {
 		entities = stack.get_blueprint_entities(),
@@ -388,6 +433,7 @@ function blueprint_to_file(player, stack, filename)
 	blueprints_saved = blueprints_saved + 1
 end
 
+-- Save blueprint book as file
 function book_to_file(player, book, filename)
 	local blueprint_format = { book = {} }
 	
@@ -521,6 +567,10 @@ function prompt_for_filename(player)
 	line2.add{type="button", name="blueprint-string-filename-cancel", caption={"cancel"}, font_color=white}
 end
 
+-- Check a blueprint for a certain entity
+-- @param blueprint blueprint to check
+-- @param entities array of entities to check
+-- @return bool blueprint contains entity
 function contains_entities(blueprint, entities)
 	if not blueprint.entities then
 		return false 
@@ -570,6 +620,7 @@ function upgrade_blueprint(player)
     end
 end
 
+-- Handle GUI click
 function on_gui_click(event) 
 	local player = game.players[event.element.player_index]
 	local name = event.element.name
