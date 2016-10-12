@@ -30,32 +30,29 @@ local function show_intro(event)
 	end
 end
 
-function player_died(event)
-  game.speed = 1
-  player = event.player_index
-  if game.players[player].name ~= nil then
-    print("[PUPDATE] | "..game.players[player].name.." | died |"..game.players[player].force.name)
-  end
+local function player_joined(event)
+	local player = game.players[event.player_index]
+	if player.name ~= nil then
+		print("[PUPDATE] | "..player.name.." | join | "..player.force.name)
+    end
 end
 
-function player_joined(event)
-  game.speed = 1
-  player = event.player_index
-  if game.players[player].name ~= nil then
-    print("[PUPDATE] | "..game.players[player].name.." | join")
-  end
+local function player_left(event)
+	local player = game.players[event.player_index]
+	if player.name ~= nil then
+		print("[PUPDATE] | "..player.name.." | left | "..player.force.name)
+    end
 end
 
-
-function player_left(event)
-  player = event.player_index
-  if game.players[player].name ~= nil then
-    print("[PUPDATE] | "..game.players[player].name.." | leave")
-  end
+local function player_died(event)
+	local player = game.players[event.player_index]
+	if player.name ~= nil then
+		print("[PUPDATE] | "..player.name.." | died | "..player.force.name)
+    end
 end
 
-Event.register(defines.events.on_player_joined_game, on_player_died)
 Event.register(defines.events.on_player_joined_game, player_joined)
 Event.register(defines.events.on_player_left_game, player_left)
+Event.register(defines.events.on_player_died, player_died)
 Event.register(defines.events.on_tick, show_announcement)
 Event.register(defines.events.on_player_created, show_intro)
