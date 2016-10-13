@@ -1,6 +1,3 @@
-require "locale/utils/event"
-require "locale/utils/utils"
-require "config"
 autodeconstruct = autodeconstruct or {}
 autodeconstruct.remove_target = true
 
