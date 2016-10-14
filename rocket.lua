@@ -1,5 +1,5 @@
---Rocket Launch GUI [based off of the default freeplay scenario]
---A 3Ra Gaming revision, original from Score Extended by binbinhfr 
+-- Rocket Launch GUI [based off of the default freeplay scenario]
+-- A 3Ra Gaming revision, original from Score Extended by binbinhfr 
 require("locale/utils/utils")
 require("config")
 default_precision = 1;
