@@ -34,7 +34,6 @@ local function show_intro(event)
 	end
 end
 
-<<<<<<< HEAD
 local function player_joined(event)
 	local player = game.players[event.player_index]
 	if player.name ~= nil then
@@ -56,11 +55,9 @@ local function player_died(event)
     end
 end
 
+-- Event handler
 Event.register(defines.events.on_player_joined_game, player_joined)
 Event.register(defines.events.on_player_left_game, player_left)
 Event.register(defines.events.on_player_died, player_died)
-=======
--- Event handlers
->>>>>>> refs/remotes/origin/master
 Event.register(defines.events.on_tick, show_announcement)
 Event.register(defines.events.on_player_created, show_intro)

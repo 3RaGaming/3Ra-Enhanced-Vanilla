@@ -10,10 +10,7 @@ require "locale/utils/undecorator"
 require "announcements"
 require "gravestone"
 require "rocket"
-<<<<<<< HEAD
 require "autodeconstruct"
-=======
->>>>>>> refs/remotes/origin/master
 require "bps"
 
 -- Give player starting items.
