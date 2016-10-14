@@ -11,6 +11,7 @@ require "announcements"
 require "gravestone"
 require "rocket"
 require "bps"
+require "tag"
 
 -- Give player starting items.
 -- @param event on_player_joined event
