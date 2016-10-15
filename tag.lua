@@ -17,6 +17,7 @@ local roles = {
   {display_name = "Power"},
   {display_name = "Trains"},
   {display_name = "Science"},
+  {display_name = "AFK"},
   {display_name = "Clear"}}
 
 function expand_tag_gui(player)
@@ -31,7 +32,7 @@ function expand_tag_gui(player)
     end
 end
 
-function on_gui_click(event) 
+local function on_gui_click(event) 
     local player = game.players[event.element.player_index]
     local name = event.element.name
 

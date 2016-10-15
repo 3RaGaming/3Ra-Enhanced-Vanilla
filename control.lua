@@ -3,10 +3,13 @@
 if not scenario then scenario = {} end
 if not scenario.config then scenario.config = {} end
 -- config and event must be required first.
+require "util"
 require "config"
 require "locale/utils/event"
 require "locale/utils/admin"
 require "locale/utils/undecorator"
+require "locale/utils/utils"
+require "autodeconstruct"
 require "announcements"
 require "gravestone"
 require "rocket"

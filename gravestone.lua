@@ -39,6 +39,7 @@ local function spawn_chest(player, chestname)
 				})
 				if savechest ~= nil then
 					savechest.destructible = false
+					savechest.last_user = player
 					return savechest
 				end
 			end
