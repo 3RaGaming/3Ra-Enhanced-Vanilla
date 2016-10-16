@@ -2,7 +2,6 @@
 -- A 3Ra Gaming revision, original from Score Extended by binbinhfr 
 default_precision = 1;
 unit_change_rocket_per_hour = 60;
-
 --------------------------------------------------------------------------------------
 local function update_averages(force_mem)
 	local dt, nb
@@ -204,7 +203,7 @@ end
 --------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------
-local function init_globals()
+function init_globals()
 	-- initialize or update general globals of the mod
 	debug_print( "init_globals " )
 
@@ -245,7 +244,7 @@ local function init_force(force)
 end
 
 --------------------------------------------------------------------------------------
-local function init_forces()
+function init_forces()
 	for _, force in pairs(game.forces) do
 		init_force(force)
 	end
@@ -257,7 +256,7 @@ local function init_forces()
 end
 
 --------------------------------------------------------------------------------------
-local function init_player(player,rebuild_bar)
+function init_player(player,rebuild_bar)
 	if global.player_mem == nil then return end
 
 	if player.gui.left.rocket_score ~= nil then
@@ -289,14 +288,14 @@ local function init_player(player,rebuild_bar)
 end
 
 --------------------------------------------------------------------------------------
-local function init_players()
+function init_players()
 	for _, player in pairs(game.players) do
 		init_player(player,true)
 	end
 end
 
 --------------------------------------------------------------------------------------
-local function on_init() 
+function rocket_init() 
 	-- called once, the first time the mod is loaded on a game (new or existing game)
 	debug_print( "on_init" )
 	init_globals()
@@ -304,7 +303,7 @@ local function on_init()
 	init_players()
 end
 
-Event.register(-1,on_init)
+Event.register(-1,rocket_init)
 
 
 
@@ -374,7 +373,7 @@ Event.register(defines.events.on_robot_pre_mined, on_destruction )
 Event.register(defines.events.on_preplayer_mined_item, on_destruction )
 
 --------------------------------------------------------------------------------------
-local function on_tick(event)
+function rocket_on_tick(event)
 	if global.ticks <=0 then
 		global.ticks = 91	
 		
@@ -428,7 +427,7 @@ local function on_tick(event)
 	global.ticks = global.ticks - 1
 end
 
-Event.register(defines.events.on_tick, on_tick)
+Event.register(defines.events.on_tick, rocket_on_tick)
 
 --------------------------------------------------------------------------------------
 

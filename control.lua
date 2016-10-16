@@ -11,15 +11,15 @@ require "locale/utils/undecorator"
 require "locale/utils/utils"
 require "autodeconstruct"
 require "announcements"
-require "showhealth"
 require "gravestone"
 require "rocket"
 require "bps"
 require "tag"
+require "autofill"
 
 -- Give player starting items.
 -- @param event on_player_joined event
-local function player_joined(event)
+function player_joined(event)
   local player = game.players[event.player_index]
   player.insert{name="iron-plate", count=8}
   player.insert{name="pistol", count=1}
@@ -30,7 +30,7 @@ end
 
 -- Give player weapons after they respawn.
 -- @param event on_player_respawned event
-local function player_respawned(event)
+function player_respawned(event)
 	local player = game.players[event.player_index]
 	player.insert{name="pistol", count=1}
 	player.insert{name="firearm-magazine", count=10}
@@ -39,7 +39,7 @@ end
 -- Send a custom message to the server
 -- @param user username to include
 -- @param message message to print
-local function server_message(user, message)
+function server_message(user, message)
 	print("[WEB] "..user..": "..message)
 	game.print("[WEB] "..user..": "..message)
 end

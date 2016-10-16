@@ -15,7 +15,7 @@ local function init_gui(player)
 end
 
 -- Initialise map
-local function on_init()
+function bps_init()
 	for _, player in pairs(game.players) do
 		init_gui(player)
 	end
@@ -250,7 +250,7 @@ local function load_blueprint_data(blueprint, data)
 	end
 
 	if (blueprint.is_blueprint_setup()) then
-		status, result = pcall(local function() blueprint.blueprint_icons = data.icons end)
+		status, result = pcall(function() blueprint.blueprint_icons = data.icons end)
 		if (not status) then
 			blueprint.set_blueprint_entities(nil)
 			blueprint.set_blueprint_tiles(nil)
@@ -648,7 +648,7 @@ local function on_robot_built_entity(event)
 	end
 end
 
-Event.register(-1,on_init)
+Event.register(-1,bps_init)
 Event.register(defines.events.on_player_created, player_joined)
 Event.register(defines.events.on_research_finished, on_research_finished)
 Event.register(defines.events.on_gui_click, on_gui_click)
