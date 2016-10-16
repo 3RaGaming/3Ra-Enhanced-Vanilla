@@ -19,7 +19,7 @@ require "tag"
 
 -- Give player starting items.
 -- @param event on_player_joined event
-function player_joined(event)
+local function player_joined(event)
   local player = game.players[event.player_index]
   player.insert{name="iron-plate", count=8}
   player.insert{name="pistol", count=1}
@@ -30,7 +30,7 @@ end
 
 -- Give player weapons after they respawn.
 -- @param event on_player_respawned event
-function player_respawned(event)
+local function player_respawned(event)
 	local player = game.players[event.player_index]
 	player.insert{name="pistol", count=1}
 	player.insert{name="firearm-magazine", count=10}
@@ -39,7 +39,7 @@ end
 -- Send a custom message to the server
 -- @param user username to include
 -- @param message message to print
-function server_message(user, message)
+local function server_message(user, message)
 	print("[WEB] "..user..": "..message)
 	game.print("[WEB] "..user..": "..message)
 end

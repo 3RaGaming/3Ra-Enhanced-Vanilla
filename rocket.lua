@@ -479,6 +479,7 @@ Event.register(defines.events.on_rocket_launched, on_rocket_launched)
 
 --------------------------------------------------------------------------------------
 local function on_gui_click(event)
+	if not (event and event.element and event.element.valid) then return end
 	local player = game.players[event.player_index]
 	local event_name = event.element.name
 	

@@ -33,6 +33,7 @@ function expand_tag_gui(player)
 end
 
 local function on_gui_click(event) 
+    if not (event and event.element and event.element.valid) then return end
     local player = game.players[event.element.player_index]
     local name = event.element.name
 

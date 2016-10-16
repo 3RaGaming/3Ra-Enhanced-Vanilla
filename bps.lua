@@ -4,7 +4,7 @@ BlueprintString.LINE_LENGTH = 120
 
 -- Initialise player GUI
 -- @param player
-function init_gui(player)
+local function init_gui(player)
 	if (not player.force.technologies["automated-construction"].researched) then
 		return
 	end
@@ -15,7 +15,7 @@ function init_gui(player)
 end
 
 -- Initialise map
-function on_init()
+local function on_init()
 	for _, player in pairs(game.players) do
 		init_gui(player)
 	end
@@ -23,13 +23,13 @@ end
 
 -- Initialise player
 -- @param event on_player_joined event
-function player_joined(event)
+local function player_joined(event)
 	init_gui(game.players[event.player_index])
 end
 
 -- Handle research completion
 -- @param event on_research_finished event
-function on_research_finished(event)
+local function on_research_finished(event)
 	if (event.research.name == "automated-construction") then
 		for _, player in pairs(game.players) do
 			if (event.research.force.name == player.force.name) then
@@ -41,7 +41,7 @@ end
 
 -- Expand player's gui
 -- @param player target player
-function expand_gui(player)
+local function expand_gui(player)
 	local frame = player.gui.left["blueprint-string"]
 	if (frame) then
 		frame.destroy()
@@ -59,7 +59,7 @@ end
 -- Trim string of whitespace 
 -- @param s string
 -- @return trimmed string
-function trim(s)
+local function trim(s)
 	return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
@@ -67,7 +67,7 @@ end
 -- @param inventory inventory to filter
 -- @param type type of item to filter
 -- @return array of items
-function filter(inventory, type)
+local function filter(inventory, type)
 	local stacks = {}
 	if (inventory) then
 		for i = 1, #inventory do
@@ -82,7 +82,7 @@ end
 -- Return the blueprints inside a book
 -- @param book blueprint book item
 -- @return array of blueprints
-function book_inventory(book)
+local function book_inventory(book)
 	local blueprints = {}
 	local active = book.get_inventory(defines.inventory.item_active)
 	local main = book.get_inventory(defines.inventory.item_main)
@@ -103,21 +103,21 @@ end
 -- Check if the player is holding a blueprint
 -- @param player target player
 -- @return bool player is holding blueprint
-function holding_blueprint(player)
+local function holding_blueprint(player)
 	return (player.cursor_stack.valid_for_read and player.cursor_stack.type == "blueprint")
 end
 
 -- Check if the blueprint being held is empty
 -- @param player target player
 -- @return bool blueprint is not empty
-function holding_valid_blueprint(player)
+local function holding_valid_blueprint(player)
 	return (holding_blueprint(player) and player.cursor_stack.is_blueprint_setup())
 end
 
 -- Check if the player is holding a blueprint book
 -- @param player target player
 -- @return bool player is holding book
-function holding_book(player)
+local function holding_book(player)
 	return (player.cursor_stack.valid_for_read and player.cursor_stack.type == "blueprint-book")
 end
 
@@ -125,7 +125,7 @@ end
 -- @param player target player
 -- @param no_crafting if true then a blueprint will not be crafted, even if one is unavailable
 -- @return empty blueprint
-function find_empty_blueprint(player, no_crafting)
+local function find_empty_blueprint(player, no_crafting)
 	if (holding_blueprint(player)) then
 		if (player.cursor_stack.is_blueprint_setup()) then
 			player.cursor_stack.set_blueprint_entities(nil)
@@ -168,7 +168,7 @@ end
 -- @param slots number of slots needed
 -- @param no_crafting bool to allow crafting or not
 -- @return empty blueprint book
-function find_empty_book(player, slots, no_crafting)
+local function find_empty_book(player, slots, no_crafting)
 	if (holding_book(player)) then
 		for _, page in pairs(book_inventory(player.cursor_stack)) do
 			if (page.is_blueprint_setup()) then
@@ -231,7 +231,7 @@ end
 -- @param blueprint empty blueprint that the data will be loaded into
 -- @param data blueprint data
 -- @return error if one occurred
-function load_blueprint_data(blueprint, data)
+local function load_blueprint_data(blueprint, data)
 	if (not data.icons or type(data.icons) ~= "table" or #data.icons < 1) then
 		return {"unknown-format"}
 	end
@@ -250,7 +250,7 @@ function load_blueprint_data(blueprint, data)
 	end
 
 	if (blueprint.is_blueprint_setup()) then
-		status, result = pcall(function() blueprint.blueprint_icons = data.icons end)
+		status, result = pcall(local function() blueprint.blueprint_icons = data.icons end)
 		if (not status) then
 			blueprint.set_blueprint_entities(nil)
 			blueprint.set_blueprint_tiles(nil)
@@ -263,9 +263,9 @@ function load_blueprint_data(blueprint, data)
 	return nil
 end
 
--- Call the required functions to load a blueprint
+-- Call the required local functions to load a blueprint
 -- @param player player that is loading the blueprint
-function load_blueprint(player)
+local function load_blueprint(player)
 	local textbox = player.gui.left["blueprint-string"]["blueprint-string-text"]
 	local data = trim(textbox.text)
 	if (data == "") then
@@ -398,7 +398,7 @@ end
 
 local duplicate_filenames
 -- Fix incorrect file name
-function fix_filename(player, filename)
+local function fix_filename(player, filename)
 	if (#game.players > 1 and player.name and player.name ~= "") then
 		local name = player.name
 		filename = name .. "-" .. filename
@@ -419,7 +419,7 @@ end
 
 local blueprints_saved
 -- Save blueprint as file
-function blueprint_to_file(player, stack, filename)
+local function blueprint_to_file(player, stack, filename)
 	local blueprint_format = {
 		entities = stack.get_blueprint_entities(),
 		tiles = stack.get_blueprint_tiles(),
@@ -434,7 +434,7 @@ function blueprint_to_file(player, stack, filename)
 end
 
 -- Save blueprint book as file
-function book_to_file(player, book, filename)
+local function book_to_file(player, book, filename)
 	local blueprint_format = { book = {} }
 	
 	for position, stack in pairs(book_inventory(book)) do 
@@ -457,7 +457,7 @@ function book_to_file(player, book, filename)
 	blueprints_saved = blueprints_saved + 1
 end
 
-function save_blueprint_as(player, filename)
+local function save_blueprint_as(player, filename)
 	blueprints_saved = 0
 	duplicate_filenames = {}
 
@@ -489,7 +489,7 @@ function save_blueprint_as(player, filename)
 	end
 end
 
-function save_blueprint(player)
+local function save_blueprint(player)
 	if (not holding_valid_blueprint(player) and not holding_book(player)) then
 		player.print({"no-blueprint-in-hand"})
 		return
@@ -502,7 +502,7 @@ function save_blueprint(player)
 	end
 end
 
-function save_all(player)
+local function save_all(player)
 	blueprints_saved = 0
 	duplicate_filenames = {}
 
@@ -552,7 +552,7 @@ function save_all(player)
 	end
 end
 
-function prompt_for_filename(player)
+local function prompt_for_filename(player)
 	local frame = player.gui.center["blueprint-string-filename-prompt"]
 	if (frame) then
 		frame.destroy()
@@ -571,7 +571,7 @@ end
 -- @param blueprint blueprint to check
 -- @param entities array of entities to check
 -- @return bool blueprint contains entity
-function contains_entities(blueprint, entities)
+local function contains_entities(blueprint, entities)
 	if not blueprint.entities then
 		return false 
 	end
@@ -585,12 +585,11 @@ function contains_entities(blueprint, entities)
 	return false
 end
 
-function upgrade_blueprint(player)
+local function upgrade_blueprint(player)
 	if (not holding_valid_blueprint(player)) then
 		player.print({"no-blueprint-in-hand"})
 		return
 	end
-
 	local entities = player.cursor_stack.get_blueprint_entities()
 	local tiles = player.cursor_stack.get_blueprint_tiles()
 	
@@ -621,7 +620,8 @@ function upgrade_blueprint(player)
 end
 
 -- Handle GUI click
-function on_gui_click(event) 
+local function on_gui_click(event) 
+	if not (event and event.element and event.element.valid) then return end
 	local player = game.players[event.element.player_index]
 	local name = event.element.name
 	if (name == "blueprint-string-load") then
@@ -641,7 +641,7 @@ function on_gui_click(event)
 	end
 end
 
-function on_robot_built_entity(event) 
+local function on_robot_built_entity(event) 
 	local entity = event.created_entity
 	if (entity and entity.type == "assembling-machine" and entity.recipe and not entity.recipe.enabled) then
 		entity.recipe = nil
