@@ -95,10 +95,23 @@ local function on_player_died(event)
 									end
 								end
 							end
-							--[[ If the entire item stack was not inserted, decrease the count and run the same item again to spawn a new chest]]--
+							--[[ If the entire item stack was not inserted, decrease the count and add the remainder into a new chest]]--
 							if item.count > inserted then
 								item.count = item.count - inserted
-								j = j - 1
+								savechest = spawn_chest(player, "steel-chest")
+								chestinventory = nil
+								if savechest ~= nil then
+									chestitems = 0
+									chestinventory = savechest.get_inventory(1)
+									if chestinventory ~= nil then
+										inserted = chestinventory.insert(item)
+										transfered = transfered + 1
+										chestId = chestId + 1
+										player.print("Storing items from inventory '" .. storeinventoriesstring[i] .. "(" .. tostring(inventoryid) .. ")' to chest #" .. tostring(chestId))
+									end
+								else --[[ break if unable to spawn new chest ]]--
+									break
+								end
 							end
 						end
 					end	--[[ end for #playerinventory ]]--
@@ -202,9 +215,9 @@ local function on_player_died(event)
 			end
 		end
 
-		local message = "No items were saved"
+		local message = "No stacks were saved"
 		if transfered > 0 then
-			message = "Saved " .. tostring(transfered) .. " item(s) into " .. tostring(chestId) .. " box(es)"
+			message = "Saved " .. tostring(transfered) .. " stack(s) into " .. tostring(chestId) .. " box(es)"
 		end
 		player.print(message)
 	end
