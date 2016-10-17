@@ -498,7 +498,7 @@ local function save_blueprint(player)
 	if (player.cursor_stack.label) then
 		save_blueprint_as(player, player.cursor_stack.label)
 	else
-		prompt_for_filename(player)
+		bps_prompt_for_filename(player)
 	end
 end
 
@@ -552,7 +552,7 @@ local function save_all(player)
 	end
 end
 
-local function prompt_for_filename(player)
+function bps_prompt_for_filename(player)
 	local frame = player.gui.center["blueprint-string-filename-prompt"]
 	if (frame) then
 		frame.destroy()
