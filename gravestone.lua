@@ -96,7 +96,7 @@ local function on_player_died(event)
 								end
 							end
 							--[[ If the entire item stack was not inserted, decrease the count and run the same item again to spawn a new chest]]--
-							if item.count < inserted then
+							if item.count > inserted then
 								item.count = item.count - inserted
 								j = j - 1
 							end
