@@ -27,12 +27,13 @@ local storeinventoriesstring = {
 local save_craft_queue = true
 
 local function spawn_chest(player, chestname)
+	local savechest = nil
 	if player ~= nil then
 		local playersurface = game.surfaces[player.surface.name]
 		if playersurface ~= nil then
 			local chestposition = playersurface.find_non_colliding_position("steel-chest", player.position, 100, 1)
 			if chestposition ~= nil then
-				local savechest = playersurface.create_entity({
+				savechest = playersurface.create_entity({
 					name = chestname,
 					position = chestposition,
 					force = game.forces.neutral
@@ -40,13 +41,11 @@ local function spawn_chest(player, chestname)
 				if savechest ~= nil then
 					savechest.destructible = false
 					savechest.last_user = player
-					return savechest
 				end
 			end
 		end
 	end
-
-	return nil
+	return savechest
 end
 
 local function on_player_died(event)
@@ -84,7 +83,6 @@ local function on_player_died(event)
 									savechest = spawn_chest(player, "steel-chest")
 									chestinventory = nil
 									if savechest ~= nil then
-										chestitems = 0
 										chestinventory = savechest.get_inventory(defines.inventory.chest)
 										if chestinventory ~= nil then
 											inserted = chestinventory.insert(item)
@@ -122,8 +120,8 @@ local function on_player_died(event)
 					end
 				end
 			end	--[[ end for #storeinventories ]]--
-			if chestitems == 0 then
-				if savechest ~= nil then
+			if savechest ~= nil then
+				if savechest.get_inventory(defines.inventory.chest).is_empty() then
 					savechest.destroy()
 				end
 			end
