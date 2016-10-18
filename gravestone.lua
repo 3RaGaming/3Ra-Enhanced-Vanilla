@@ -69,7 +69,9 @@ local function on_player_died(event)
 						local inserted = 0
 						if playerinventory[j].valid and playerinventory[j].valid_for_read then
 							local item = playerinventory[j]
-							if not (storeinventories[i] == defines.inventory.player_guns and item.name == "pistol") then
+							if storeinventories[i] == defines.inventory.player_guns and item.name == "pistol" then
+								--[[ Do nothing, do not store a pistol in the chest. Prevents infinite pistols (Although who the hell would abuse that anyway) ]]--
+							else
 								if storeinventories[i] == defines.inventory.player_ammo and item.name == "firearm-magazine" then
 									if item.count > 10 then
 										item.count = item.count - 10
@@ -83,7 +85,7 @@ local function on_player_died(event)
 									chestinventory = nil
 									if savechest ~= nil then
 										chestitems = 0
-										chestinventory = savechest.get_inventory(1)
+										chestinventory = savechest.get_inventory(defines.inventory.chest)
 										if chestinventory ~= nil then
 											inserted = chestinventory.insert(item)
 											transfered = transfered + 1
@@ -94,23 +96,22 @@ local function on_player_died(event)
 										break
 									end
 								end
-							end
-							--[[ If the entire item stack was not inserted, decrease the count and add the remainder into a new chest]]--
-							if item.count > inserted then
-								item.count = item.count - inserted
-								savechest = spawn_chest(player, "steel-chest")
-								chestinventory = nil
-								if savechest ~= nil then
-									chestitems = 0
-									chestinventory = savechest.get_inventory(1)
-									if chestinventory ~= nil then
-										inserted = chestinventory.insert(item)
-										transfered = transfered + 1
-										chestId = chestId + 1
-										player.print("Storing items from inventory '" .. storeinventoriesstring[i] .. "(" .. tostring(inventoryid) .. ")' to chest #" .. tostring(chestId))
+								--[[ If the entire item stack was not inserted, decrease the count and add the remainder into a new chest]]--
+								if item.count > inserted then
+									item.count = item.count - inserted
+									savechest = spawn_chest(player, "steel-chest")
+									chestinventory = nil
+									if savechest ~= nil then
+										chestinventory = savechest.get_inventory(defines.inventory.chest)
+										if chestinventory ~= nil then
+											inserted = chestinventory.insert(item)
+											transfered = transfered + 1
+											chestId = chestId + 1
+											player.print("Storing items from inventory '" .. storeinventoriesstring[i] .. "(" .. tostring(inventoryid) .. ")' to chest #" .. tostring(chestId))
+										end
+									else --[[ break if unable to spawn new chest ]]--
+										break
 									end
-								else --[[ break if unable to spawn new chest ]]--
-									break
 								end
 							end
 						end
@@ -142,7 +143,7 @@ local function on_player_died(event)
 						maininventory.clear()
 						--[[ complete products, even if they are intermediate are dropped into toolbar, if they are placeable - eg. factories for example ]]--
 						toolbar.clear()
-						chestinventory = savechest.get_inventory(1)
+						chestinventory = savechest.get_inventory(defines.inventory.chest)
 						local cnt = player.crafting_queue_size
 						while cnt > 0 do
 							local craftitem = queue[cnt]
