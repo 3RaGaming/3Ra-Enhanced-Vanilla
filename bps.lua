@@ -429,7 +429,7 @@ local function blueprint_to_file(player, stack, filename)
 	
 	local data = BlueprintString.toString(blueprint_format)
 	filename = fix_filename(player, filename)
-	game.write_file("blueprint-string/" .. filename .. ".txt", data)
+	game.write_file("blueprint-string/" .. filename .. ".txt", data, false, player.index)
 	blueprints_saved = blueprints_saved + 1
 end
 
@@ -453,7 +453,6 @@ local function book_to_file(player, book, filename)
 	
 	local data = BlueprintString.toString(blueprint_format)
 	filename = fix_filename(player, filename)
-	game.write_file("blueprint-string/" .. filename .. ".txt", data)
 	blueprints_saved = blueprints_saved + 1
 end
 
