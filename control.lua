@@ -13,6 +13,7 @@ require "autodeconstruct"
 require "announcements"
 require "gravestone"
 require "rocket"
+require "autodeconstruct"
 require "bps"
 require "tag"
 require "autofill"
@@ -34,6 +35,11 @@ function player_respawned(event)
 	local player = game.players[event.player_index]
 	player.insert{name="pistol", count=1}
 	player.insert{name="firearm-magazine", count=10}
+    
+    --console player death
+	if player.name ~= nil then
+		print("[PUPDATE] | "..player.name.." | respawn | "..player.force.name)
+    end
 end
 
 -- Event handlers
