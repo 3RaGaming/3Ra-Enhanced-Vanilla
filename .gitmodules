@@ -1,3 +1,5 @@
 [submodule "locale/utils"]
 	path = locale/utils
 	url = git@github.com:3RaGaming/utils.git
+	ignore = dirty
+	branch = master
