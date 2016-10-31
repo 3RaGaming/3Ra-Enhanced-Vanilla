@@ -53,41 +53,41 @@ local lshift, rshift = bit.lshift, bit.rshift
 local ZLIB = {}
 
 -- Allowed flush values; see deflate() and inflate() below for details
-ZLIB.Z_NO_FLUSH      = 0
+ZLIB.Z_NO_FLUSH	  = 0
 ZLIB.Z_PARTIAL_FLUSH = 1
-ZLIB.Z_SYNC_FLUSH    = 2
-ZLIB.Z_FULL_FLUSH    = 3
-ZLIB.Z_FINISH        = 4
-ZLIB.Z_BLOCK         = 5
-ZLIB.Z_TREES         = 6
+ZLIB.Z_SYNC_FLUSH	= 2
+ZLIB.Z_FULL_FLUSH	= 3
+ZLIB.Z_FINISH		= 4
+ZLIB.Z_BLOCK		 = 5
+ZLIB.Z_TREES		 = 6
 
 -- Return codes for the compression/decompression functions. Negative values are errors, positive values are used for special but normal events.
-ZLIB.Z_OK            =   0
-ZLIB.Z_STREAM_END    =   1
-ZLIB.Z_NEED_DICT     =   2
-ZLIB.Z_ERRNO         = (-1)
+ZLIB.Z_OK			=   0
+ZLIB.Z_STREAM_END	=   1
+ZLIB.Z_NEED_DICT	 =   2
+ZLIB.Z_ERRNO		 = (-1)
 ZLIB.Z_STREAM_ERROR  = (-2)
-ZLIB.Z_DATA_ERROR    = (-3)
-ZLIB.Z_MEM_ERROR     = (-4)
-ZLIB.Z_BUF_ERROR     = (-5)
+ZLIB.Z_DATA_ERROR	= (-3)
+ZLIB.Z_MEM_ERROR	 = (-4)
+ZLIB.Z_BUF_ERROR	 = (-5)
 ZLIB.Z_VERSION_ERROR = (-6)
 
 -- compression levels 
-ZLIB.Z_NO_COMPRESSION      = 0
-ZLIB.Z_BEST_SPEED          = 1
-ZLIB.Z_BEST_COMPRESSION    = 9
+ZLIB.Z_NO_COMPRESSION	  = 0
+ZLIB.Z_BEST_SPEED		  = 1
+ZLIB.Z_BEST_COMPRESSION	= 9
 ZLIB.Z_DEFAULT_COMPRESSION = (-1)
 
 -- compression strategy; see deflateInit2() below for details 
-ZLIB.Z_FILTERED         = 1
-ZLIB.Z_HUFFMAN_ONLY     = 2
-ZLIB.Z_RLE              = 3
-ZLIB.Z_FIXED            = 4
+ZLIB.Z_FILTERED		 = 1
+ZLIB.Z_HUFFMAN_ONLY	 = 2
+ZLIB.Z_RLE			  = 3
+ZLIB.Z_FIXED			= 4
 ZLIB.Z_DEFAULT_STRATEGY = 0
 
 -- Possible values of the data_type field (though see inflate())
 ZLIB.Z_BINARY  = 0
-ZLIB.Z_TEXT    = 1
+ZLIB.Z_TEXT	= 1
 ZLIB.Z_ASCII   = ZLIB.Z_TEXT  -- for compatibility with 1.2.2 and earlier
 ZLIB.Z_UNKNOWN = 2
 
@@ -100,22 +100,22 @@ ZLIB.MAX_MEM_LEVEL = 9
 -- z_stream constructor
 ZLIB.z_stream = function()
 	local s = {}
-	s.next_in = 0       -- next input byte
-	s.avail_in = 0      -- number of bytes available in input_data
-	s.total_in = 0      -- total number of input bytes read so far
+	s.next_in = 0	   -- next input byte
+	s.avail_in = 0	  -- number of bytes available in input_data
+	s.total_in = 0	  -- total number of input bytes read so far
 
-	s.next_out = 0      -- next output byte
-	s.avail_out = 0     -- remaining free space at next_out
-	s.total_out = 0     -- total number of bytes output so far
+	s.next_out = 0	  -- next output byte
+	s.avail_out = 0	 -- remaining free space at next_out
+	s.total_out = 0	 -- total number of bytes output so far
 
-	s.msg = nil         -- last error message, nil if no error
-	s.state = nil       -- not visible by applications
+	s.msg = nil		 -- last error message, nil if no error
+	s.state = nil	   -- not visible by applications
 
-	s.data_type = 0     -- best guess about the data type: binary or text
+	s.data_type = 0	 -- best guess about the data type: binary or text
 
 	s.input_data = ''   -- input data
 	s.output_data = ''  -- output data
-	s.error = 0         -- error code
+	s.error = 0		 -- error code
 	s.checksum_function = nil  -- crc32(for gzip) or adler32(for zlib)
 	return s
 end
@@ -187,12 +187,12 @@ local MAX_BITS = 15
 local Buf_size = 16
 
 -- Stream status
-local INIT_STATE    = 42
+local INIT_STATE	= 42
 local EXTRA_STATE   = 69
-local NAME_STATE    = 73
+local NAME_STATE	= 73
 local COMMENT_STATE = 91
-local HCRC_STATE    = 103
-local BUSY_STATE    = 113
+local HCRC_STATE	= 103
+local BUSY_STATE	= 113
 local FINISH_STATE  = 666
 
 function new_array(size)
@@ -225,29 +225,29 @@ end
 -- constructor
 function tree_desc()
 	local this = {}
-	this.dyn_tree = nil       -- the dynamic tree
-	this.max_code = 0         -- largest code with non zero frequency
-	this.stat_desc = nil      -- the corresponding static tree
+	this.dyn_tree = nil	   -- the dynamic tree
+	this.max_code = 0		 -- largest code with non zero frequency
+	this.stat_desc = nil	  -- the corresponding static tree
 	return this
 end
 
 -- constructor
 function deflate_state()
 	local this = {}
-	this.strm = nil           -- pointer back to this zlib stream (TODO remove: cross reference)
-	this.status = 0           -- as the name implies
-	this.pending_buf = ''     -- output still pending
+	this.strm = nil		   -- pointer back to this zlib stream (TODO remove: cross reference)
+	this.status = 0		   -- as the name implies
+	this.pending_buf = ''	 -- output still pending
 	this.pending_buf_size = 0 -- size of pending_buf
-	this.wrap = 0             -- bit 0 true for zlib, bit 1 true for gzip
-	this.gzhead = nil         -- TODO: gzip header information to write
-	this.gzindex = 0          -- TODO: where in extra, name, or comment
-	this.method = 0           -- STORED (for zip only) or DEFLATED
-	this.last_flush = 0       -- value of flush param for previous deflate call
+	this.wrap = 0			 -- bit 0 true for zlib, bit 1 true for gzip
+	this.gzhead = nil		 -- TODO: gzip header information to write
+	this.gzindex = 0		  -- TODO: where in extra, name, or comment
+	this.method = 0		   -- STORED (for zip only) or DEFLATED
+	this.last_flush = 0	   -- value of flush param for previous deflate call
 
 	-- used by deflate.c:
-	this.w_size = 0           -- LZ77 window size (32K by default)
-	this.w_bits = 0           -- log2(w_size)  (8..16)
-	this.w_mask = 0           -- w_size - 1
+	this.w_size = 0		   -- LZ77 window size (32K by default)
+	this.w_bits = 0		   -- log2(w_size)  (8..16)
+	this.w_mask = 0		   -- w_size - 1
 
 	-- Sliding window. Input bytes are read into the second half of the window, and move to the first half later to keep a dictionary of at least wSize bytes. With this organization, matches are limited to a distance of wSize-MAX_MATCH bytes, but this ensures that IO is always performed with a length multiple of the block size. Also, it limits the window size to 64K, which is quite useful on MSDOS. To do: use the user input buffer as sliding window.
 	this.window = nil
@@ -258,9 +258,9 @@ function deflate_state()
 	-- Link to older string with same hash index. To limit the size of this array to 64K, this link is maintained only for the last 32K strings. An index in this array is thus a window index modulo 32K.
 	this.prev = nil
 
-	this.head = nil     -- Heads of the hash chains or NIL.
+	this.head = nil	 -- Heads of the hash chains or NIL.
 
-	this.ins_h = 0      -- hash index of string to be inserted
+	this.ins_h = 0	  -- hash index of string to be inserted
 	this.hash_size = 0  -- number of elements in hash table
 	this.hash_bits = 0  -- log2(hash_size)
 	this.hash_mask = 0  -- hash_size-1
@@ -271,12 +271,12 @@ function deflate_state()
 	-- Window position at the beginning of the current output block. Gets negative when the window is moved backwards.
 	this.block_start = 0
 
-	this.match_length = 0         -- length of best match
-	this.prev_match = 0           -- previous match
+	this.match_length = 0		 -- length of best match
+	this.prev_match = 0		   -- previous match
 	this.match_available = false  -- set if previous match exists
-	this.strstart = 0             -- start of string to insert
-	this.match_start = 0          -- start of matching string
-	this.lookahead = 0            -- number of valid bytes ahead in window
+	this.strstart = 0			 -- start of string to insert
+	this.match_start = 0		  -- start of matching string
+	this.lookahead = 0			-- number of valid bytes ahead in window
 
 	-- Length of the best match at previous step. Matches not greater than this are discarded. This is used in the lazy match evaluation.
 	this.prev_length = 0
@@ -287,7 +287,7 @@ function deflate_state()
 	-- Attempt to find a better match only when the current match is strictly smaller than this value. This mechanism is used only for compression levels >= 4.
 	this.max_lazy_match = 0
 
-	this.level = 0     -- compression level (1..9)
+	this.level = 0	 -- compression level (1..9)
 	this.strategy = 0  -- favor or force Huffman coding
 
 	-- Use a faster search when the previous match is longer than this
@@ -297,7 +297,7 @@ function deflate_state()
 
 	-- used by trees.c:
 	-- Didn't use ct_data typedef below to suppress compiler warning
-	this.dyn_ltree = new_ct_array(HEAP_SIZE)    -- literal and length tree
+	this.dyn_ltree = new_ct_array(HEAP_SIZE)	-- literal and length tree
 	this.dyn_dtree = new_ct_array(2*D_CODES+1)  -- distance tree
 	this.bl_tree = new_ct_array(2*BL_CODES+1)   -- Huffman tree for bit lengths
 
@@ -311,26 +311,26 @@ function deflate_state()
 	-- The sons of heap[n] are heap[2*n] and heap[2*n+1]. heap[0] is not used.
 	-- The same heap array is used to build all trees.
 	this.heap = new_array(2*L_CODES+1)  -- heap used to build the Huffman trees
-	this.heap_len = 0    -- number of elements in the heap
-	this.heap_max = 0    -- element of largest frequency
+	this.heap_len = 0	-- number of elements in the heap
+	this.heap_max = 0	-- element of largest frequency
 
 	-- Depth of each subtree used as tie breaker for trees of equal frequency
 	this.depth = new_array(2*L_CODES+1)
 
-	this.l_buf = nil     -- buffer for literals or lengths
+	this.l_buf = nil	 -- buffer for literals or lengths
 
 	-- Size of match buffer for literals/lengths
 	this.lit_bufsize = 0
 	
-	this.last_lit = 0    -- running index in l_buf
+	this.last_lit = 0	-- running index in l_buf
 
 	-- Buffer for distances. To simplify the code, d_buf and l_buf have the same number of elements. To use different lengths, an extra flag array would be necessary.
 	this.d_buf = nil
 
-	this.opt_len = 0     -- bit length of current block with optimal trees
+	this.opt_len = 0	 -- bit length of current block with optimal trees
 	this.static_len = 0  -- bit length of current block with static trees
-	this.matches = 0     -- number of string matches in current block
-	this.insert = 0      -- bytes at end of window left to insert
+	this.matches = 0	 -- number of string matches in current block
+	this.insert = 0	  -- bytes at end of window left to insert
 
 	--this.compressed_len = 0  -- total bit length of compressed file mod 2^32
 	this.bits_sent = 0   -- bit length of compressed data sent mod 2^32
@@ -399,7 +399,7 @@ bl_order[0] = 16
 local DIST_CODE_LEN = 512 
 
 local static_ltree = {
-                {fc=140, dl=8}, {fc= 76, dl=8}, {fc=204, dl=8}, {fc= 44, dl=8},
+				{fc=140, dl=8}, {fc= 76, dl=8}, {fc=204, dl=8}, {fc= 44, dl=8},
 {fc=172, dl=8}, {fc=108, dl=8}, {fc=236, dl=8}, {fc= 28, dl=8}, {fc=156, dl=8},
 {fc= 92, dl=8}, {fc=220, dl=8}, {fc= 60, dl=8}, {fc=188, dl=8}, {fc=124, dl=8},
 {fc=252, dl=8}, {fc=  2, dl=8}, {fc=130, dl=8}, {fc= 66, dl=8}, {fc=194, dl=8},
@@ -461,7 +461,7 @@ local static_ltree = {
 static_ltree[0] = {fc=12, dl=8}
 
 local static_dtree = {
-               {fc=16, dl=5}, {fc= 8, dl=5}, {fc=24, dl=5}, {fc= 4, dl=5},
+			   {fc=16, dl=5}, {fc= 8, dl=5}, {fc=24, dl=5}, {fc= 4, dl=5},
 {fc=20, dl=5}, {fc=12, dl=5}, {fc=28, dl=5}, {fc= 2, dl=5}, {fc=18, dl=5},
 {fc=10, dl=5}, {fc=26, dl=5}, {fc= 6, dl=5}, {fc=22, dl=5}, {fc=14, dl=5},
 {fc=30, dl=5}, {fc= 1, dl=5}, {fc=17, dl=5}, {fc= 9, dl=5}, {fc=25, dl=5},
@@ -471,7 +471,7 @@ local static_dtree = {
 static_dtree[0] = {fc=0, dl=5}
 
 local _dist_code = {
-     1,  2,  3,  4,  4,  5,  5,  6,  6,  6,  6,  7,  7,  7,  7,  8,  8,  8,  8,
+	 1,  2,  3,  4,  4,  5,  5,  6,  6,  6,  6,  7,  7,  7,  7,  8,  8,  8,  8,
  8,  8,  8,  8,  9,  9,  9,  9,  9,  9,  9,  9, 10, 10, 10, 10, 10, 10, 10, 10,
 10, 10, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
 11, 11, 11, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
@@ -501,7 +501,7 @@ local _dist_code = {
 _dist_code[0] = 0
 
 local _length_code = {
-     1,  2,  3,  4,  5,  6,  7,  8,  8,  9,  9, 10, 10, 11, 11, 12, 12, 12, 12,
+	 1,  2,  3,  4,  5,  6,  7,  8,  8,  9,  9, 10, 10, 11, 11, 12, 12, 12, 12,
 13, 13, 13, 13, 14, 14, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 16, 16, 16, 16,
 17, 17, 17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 19, 19, 19, 19,
 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
@@ -679,11 +679,11 @@ function gen_bitlen(s, desc)
 	local extra	= desc.stat_desc.extra_bits
 	local base = desc.stat_desc.extra_base
 	local max_length = desc.stat_desc.max_length
-	local h             -- heap index
-	local n, m          -- iterate over the tree elements
-	local bits          -- bit length
-	local xbits         -- extra bits
-	local f             -- frequency
+	local h			 -- heap index
+	local n, m		  -- iterate over the tree elements
+	local bits		  -- bit length
+	local xbits		 -- extra bits
+	local f			 -- frequency
 	local overflow = 0  -- number of elements with bit length too large
 
 	for bits = 0, MAX_BITS do s.bl_count[bits] = 0 end
@@ -790,9 +790,9 @@ function build_tree(s, desc)
 	local tree = desc.dyn_tree
 	local stree = desc.stat_desc.static_tree
 	local elems = desc.stat_desc.elems
-	local n, m           -- iterate over heap elements
+	local n, m		   -- iterate over heap elements
 	local max_code = -1  -- largest code with non zero frequency
-	local node           -- new node being created
+	local node		   -- new node being created
 
 	-- Construct the initial heap, with least frequent element in heap[SMALLEST]. The sons of heap[n] are heap[2*n] and heap[2*n+1]. heap[0] is not used.
 	s.heap_len = 0
@@ -831,7 +831,7 @@ function build_tree(s, desc)
 	for n = rshift(s.heap_len, 1), 1, -1 do pqdownheap(s, tree, n) end
 
 	-- Construct the Huffman tree by repeatedly combining the least two frequent nodes.
-	node = elems               -- next internal node of the tree
+	node = elems			   -- next internal node of the tree
 	while (s.heap_len >= 2) do
 		n = pqremove(s, tree)  -- n = node of least frequency
 		m = s.heap[SMALLEST]   -- m = node of next least frequency
@@ -876,12 +876,12 @@ end
 
 -- Scan a literal or distance tree to determine the frequencies of the codes in the bit length tree.
 function scan_tree (s, tree, max_code)
-	local prevlen = -1          -- last emitted length
-	local curlen                -- length of current code
+	local prevlen = -1		  -- last emitted length
+	local curlen				-- length of current code
 	local nextlen = tree[0].dl  -- length of next code
-	local count = 0             -- repeat count of the current code
-	local max_count = 7         -- max repeat count
-	local min_count = 4         -- min repeat count
+	local count = 0			 -- repeat count of the current code
+	local max_count = 7		 -- max repeat count
+	local min_count = 4		 -- min repeat count
 
 	if (nextlen == 0) then max_count = 138; min_count = 3 end
 	tree[max_code+1].dl = 0xffff  -- guard
@@ -916,12 +916,12 @@ end
 
 -- Send a literal or distance tree in compressed form, using the codes in bl_tree.
 function send_tree (s, tree, max_code)
-	local prevlen = -1          -- last emitted length
-	local curlen                -- length of current code
+	local prevlen = -1		  -- last emitted length
+	local curlen				-- length of current code
 	local nextlen = tree[0].dl  -- length of next code
-	local count = 0             -- repeat count of the current code
-	local max_count = 7         -- max repeat count
-	local min_count = 4         -- min repeat count
+	local count = 0			 -- repeat count of the current code
+	local max_count = 7		 -- max repeat count
+	local min_count = 4		 -- min repeat count
 
 	-- tree[max_code+1].Len = -1  -- guard already set
 	if (nextlen == 0) then max_count = 138; min_count = 3 end
@@ -1140,7 +1140,7 @@ end
 -- Send the block data compressed using the given Huffman trees
 function compress_block(s, ltree, dtree)
 	local dist   -- distance of matched string
-	local lc     -- match length or unmatched char (if dist == 0)
+	local lc	 -- match length or unmatched char (if dist == 0)
 	local lx = 0 -- running index in l_buf
 	local code   -- the code to send
 	local extra  -- number of extra bits to send
@@ -1277,18 +1277,18 @@ end
 -- deflate.c -- compress data using the deflation algorithm
 
 -- enum block_state
-local need_more = 0       -- block not completed, need more input or more output
-local block_done = 1      -- block flush performed
+local need_more = 0	   -- block not completed, need more input or more output
+local block_done = 1	  -- block flush performed
 local finish_started = 2  -- finish started, need only more output at next deflate
-local finish_done = 3     -- finish done, accept no more input or output
+local finish_done = 3	 -- finish done, accept no more input or output
 
 local TOO_FAR = 4096
 
 -- Note: the deflate() code requires max_lazy >= MIN_MATCH and max_chain >= 4
 -- For deflate_fast() (levels <= 3) good is ignored and lazy has a different meaning.
 local configuration_table = {
-	{good_length=4,  max_lazy=4,   nice_length=8,   max_chain=4,    func=deflate_fast},  -- max speed, no lazy matches
-	{good_length=4,  max_lazy=5,   nice_length=16,  max_chain=8,    func=deflate_fast},
+	{good_length=4,  max_lazy=4,   nice_length=8,   max_chain=4,	func=deflate_fast},  -- max speed, no lazy matches
+	{good_length=4,  max_lazy=5,   nice_length=16,  max_chain=8,	func=deflate_fast},
 	{good_length=4,  max_lazy=6,   nice_length=32,  max_chain=32,   func=deflate_fast},
 	{good_length=4,  max_lazy=4,   nice_length=16,  max_chain=16,   func=deflate_slow},  -- lazy matches
 	{good_length=8,  max_lazy=16,  nice_length=32,  max_chain=32,   func=deflate_slow},
@@ -1298,7 +1298,7 @@ local configuration_table = {
 	{good_length=32, max_lazy=258, nice_length=258, max_chain=4096, func=deflate_slow},
 }
 configuration_table[0] =
-	{good_length=0,  max_lazy=0,   nice_length=0,   max_chain=0,    func=deflate_stored}  -- store only
+	{good_length=0,  max_lazy=0,   nice_length=0,   max_chain=0,	func=deflate_stored}  -- store only
 
 -- rank Z_BLOCK between Z_NO_FLUSH and Z_PARTIAL_FLUSH
 function RANK(f)
@@ -1539,14 +1539,14 @@ function flush_pending(strm)
 end
 
 local z_errmsg = {
-	'need dictionary',       -- Z_NEED_DICT       2
-	 'stream end',		     -- Z_STREAM_END      1
-	 '',                     -- Z_OK              0
-	 'file error',           -- Z_ERRNO         (-1)
-	 'stream error',         -- Z_STREAM_ERROR  (-2)
-	 'data error',           -- Z_DATA_ERROR    (-3)
-	 'insufficient memory',  -- Z_MEM_ERROR     (-4)
-	 'buffer error',         -- Z_BUF_ERROR     (-5)
+	'need dictionary',	   -- Z_NEED_DICT	   2
+	 'stream end',			 -- Z_STREAM_END	  1
+	 '',					 -- Z_OK			  0
+	 'file error',		   -- Z_ERRNO		 (-1)
+	 'stream error',		 -- Z_STREAM_ERROR  (-2)
+	 'data error',		   -- Z_DATA_ERROR	(-3)
+	 'insufficient memory',  -- Z_MEM_ERROR	 (-4)
+	 'buffer error',		 -- Z_BUF_ERROR	 (-5)
 	 'incompatible version', -- Z_VERSION_ERROR (-6)
 	 ''
 }
@@ -1961,10 +1961,10 @@ function longest_match(s, cur_match)
 	local chain_length = s.max_chain_length  -- max hash chain length
 
 	-- zlib.js: scan -> window[scan], match -> window[match]
-	local scan = s.strstart          -- current string
-	local match                      -- matched string
+	local scan = s.strstart		  -- current string
+	local match					  -- matched string
 
-	local len                        -- length of current match
+	local len						-- length of current match
 	local best_len = s.prev_length   -- best match length so far
 	local nice_match = s.nice_match  -- stop if match long enough
 	local limit = 0
@@ -2232,7 +2232,7 @@ end
 -- This function does not perform lazy evaluation of matches and inserts new strings in the dictionary only for unmatched strings or for short matches. It is used only for the fast compression options.
 function deflate_fast(s, flush)
 	local hash_head  -- head of the hash chain
-	local bflush     -- set if current block must be flushed
+	local bflush	 -- set if current block must be flushed
 
 	while (true) do
 		-- Make sure that we always have enough lookahead, except at the end of the input file. We need MAX_MATCH bytes for the next match, plus MIN_MATCH bytes to insert the string following the next match.
@@ -2306,7 +2306,7 @@ end
 -- Same as above, but achieves better compression. We use a lazy evaluation for matches: a match is finally adopted only if there is no better match at the next window position.
 function deflate_slow(s, flush)
 	local hash_head  -- head of hash chain
-	local bflush     -- set if current block must be flushed
+	local bflush	 -- set if current block must be flushed
 
 	-- Process the input block.
 	while (true) do
@@ -2410,8 +2410,8 @@ end
 
 -- For Z_RLE, simply look for runs of bytes, generate matches only of distance one.  Do not maintain a hash table.  (It will be regenerated if this run of deflate switches away from Z_RLE.)
 function deflate_rle(s, flush)
-	local bflush        -- set if current block must be flushed
-	local prev          -- byte at distance one to match
+	local bflush		-- set if current block must be flushed
+	local prev		  -- byte at distance one to match
 	-- window[scan], window[strend]
 	local scan, strend  -- scan goes up to strend for length of run
 	local window = s.window
