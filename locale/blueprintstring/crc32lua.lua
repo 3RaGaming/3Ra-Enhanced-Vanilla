@@ -24,25 +24,25 @@ API
 
   CRC.crc32_byte(byte [, crc]) --> rcrc
   
-	Returns CRC-32 checksum `rcrc` of byte `byte` (number 0..255) appended to
-	a string with CRC-32 checksum `crc`.  `crc` defaults to 0 (empty string)
-	if omitted.
+    Returns CRC-32 checksum `rcrc` of byte `byte` (number 0..255) appended to
+    a string with CRC-32 checksum `crc`.  `crc` defaults to 0 (empty string)
+    if omitted.
 
   CRC.crc32_string(s, crc) --> bcrc
 
-	Returns CRC-32 checksum `rcrc` of string `s` appended to
-	a string with CRC-32 checksum `crc`.  `crc` defaults to 0 (empty string)
-	if omitted.
+    Returns CRC-32 checksum `rcrc` of string `s` appended to
+    a string with CRC-32 checksum `crc`.  `crc` defaults to 0 (empty string)
+    if omitted.
   
   CRC.crc32(o, crc) --> bcrc
 
-	This invokes `crc32_byte` if `o` is a byte or `crc32_string` if `o`
-	is a string.
+    This invokes `crc32_byte` if `o` is a byte or `crc32_string` if `o`
+    is a string.
   
   CRC.bit
 
-	This contains the underlying bit library used by the module.  It
-	should be considered a read-only copy.
+    This contains the underlying bit library used by the module.  It
+    should be considered a read-only copy.
 
 DESIGN NOTES
 
@@ -62,27 +62,27 @@ DEPENDENCIES
  
   Requires one of the following bit libraries:
 
-	BitOp "bit" -- bitop.luajit.org -- This is included in LuaJIT and also available
-	  for Lua 5.1/5.2.  This provides the fastest performance in LuaJIT.
-	Lua 5.2 "bit32" -- www.lua.org/manual/5.2 -- This is provided in Lua 5.2
-	  and is preferred in 5.2 (unless "bit" also happens to be installed).
-	"bit.numberlua" (>=000.003) -- https://github.com/davidm/lua-bit-numberlua
-	  This is slowest and used as a last resort.
-	  It is only a few times slower than "bit32" though.
+    BitOp "bit" -- bitop.luajit.org -- This is included in LuaJIT and also available
+      for Lua 5.1/5.2.  This provides the fastest performance in LuaJIT.
+    Lua 5.2 "bit32" -- www.lua.org/manual/5.2 -- This is provided in Lua 5.2
+      and is preferred in 5.2 (unless "bit" also happens to be installed).
+    "bit.numberlua" (>=000.003) -- https://github.com/davidm/lua-bit-numberlua
+      This is slowest and used as a last resort.
+      It is only a few times slower than "bit32" though.
 
 DOWNLOAD/INSTALLATION
 
   If using LuaRocks:
-	luarocks install lua-digest-crc32lua
+    luarocks install lua-digest-crc32lua
 
   Otherwise, download <https://github.com/davidm/lua-digest-crc32lua/zipball/master>.
   Alternately, if using git:
-	git clone git://github.com/davidm/lua-digest-crc32lua.git
-	cd lua-digest-crc32lua
+    git clone git://github.com/davidm/lua-digest-crc32lua.git
+    cd lua-digest-crc32lua
   Optionally unpack:
-	./util.mk
+    ./util.mk
   or unpack and install in LuaRocks:
-	./util.mk install 
+    ./util.mk install 
   
 REFERENCES
 
@@ -133,10 +133,10 @@ local setmetatable = setmetatable
 local function requireany(...)
   local errs = {}
   for _,name in ipairs{...} do
-	if type(name) ~= 'string' then return name, '' end
-	local ok, mod = pcall(require, name)
-	if ok then return mod, name end
-	errs[#errs+1] = mod
+    if type(name) ~= 'string' then return name, '' end
+    local ok, mod = pcall(require, name)
+    if ok then return mod, name end
+    errs[#errs+1] = mod
   end
   error(table.concat(errs, '\n'), 2)
 end
@@ -155,8 +155,8 @@ local function memoize(f)
   local mt = {}
   local t = setmetatable({}, mt)
   function mt:__index(k)
-	local v = f(k); t[k] = v
-	return v
+    local v = f(k); t[k] = v
+    return v
   end
   return t
 end
@@ -165,9 +165,9 @@ end
 local crc_table = memoize(function(i)
   local crc = i
   for _=1,8 do
-	local b = band(crc, 1)
-	crc = rshift(crc, 1)
-	if b == 1 then crc = bxor(crc, POLY) end
+    local b = band(crc, 1)
+    crc = rshift(crc, 1)
+    if b == 1 then crc = bxor(crc, POLY) end
   end
   return crc
 end)
@@ -185,7 +185,7 @@ local M_crc32_byte = M.crc32_byte
 function M.crc32_string(s, crc)
   crc = crc or 0
   for i=1,#s do
-	crc = M_crc32_byte(s:byte(i), crc)
+    crc = M_crc32_byte(s:byte(i), crc)
   end
   return crc
 end
@@ -194,9 +194,9 @@ local M_crc32_string = M.crc32_string
 
 function M.crc32(s, crc)
   if type(s) == 'string' then
-	return M_crc32_string(s, crc)
+    return M_crc32_string(s, crc)
   else
-	return M_crc32_byte(s, crc)
+    return M_crc32_byte(s, crc)
   end
 end
 

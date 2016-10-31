@@ -580,7 +580,7 @@ local function contains_entities(blueprint, entities)
 		if entities[e.name] then
 			return true
 		end
-	end
+    end
 
 	return false
 end
@@ -616,7 +616,7 @@ local function upgrade_blueprint(player)
 			tile.position = {x = tile.position.x + offset.x, y = tile.position.y + offset.y}
 		end
 		player.cursor_stack.set_blueprint_tiles(tiles)
-	end
+    end
 end
 
 -- Handle GUI click

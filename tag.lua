@@ -21,21 +21,21 @@ local roles = {
   {display_name = "Clear"}}
 
 function expand_tag_gui(player)
-	local frame = player.gui.left["tag-panel"]
-	if (frame) then
-		frame.destroy()
-	else
-		local frame = player.gui.left.add{type="frame", name="tag-panel", caption="Choose Tag"}
-			for _, role in pairs(roles) do
-				frame.add{type="button", caption=role.display_name, name=role.display_name}
+    local frame = player.gui.left["tag-panel"]
+    if (frame) then
+        frame.destroy()
+    else
+        local frame = player.gui.left.add{type="frame", name="tag-panel", caption="Choose Tag"}
+    		for _, role in pairs(roles) do
+    			frame.add{type="button", caption=role.display_name, name=role.display_name}
   			end
-	end
+    end
 end
 
 local function on_gui_click(event) 
-	if not (event and event.element and event.element.valid) then return end
-	local player = game.players[event.element.player_index]
-	local name = event.element.name
+    if not (event and event.element and event.element.valid) then return end
+    local player = game.players[event.element.player_index]
+    local name = event.element.name
 
 		if (name == "tag") then
 			expand_tag_gui(player)		

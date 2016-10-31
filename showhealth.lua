@@ -1,5 +1,5 @@
 local function showhealth(event)
-	for k, player in pairs(game.players) do
+    for k, player in pairs(game.players) do
 		if player.connected then
 			if player.character then
 				if player.character.health == nil then return end
@@ -19,9 +19,9 @@ local function showhealth(event)
 						end
 					end
 				end
-			end
-		end
-	end 
+            end
+        end
+    end 
 end
 
 
