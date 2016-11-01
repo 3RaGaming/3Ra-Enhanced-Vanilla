@@ -1,4 +1,4 @@
-﻿# 3ragaming
+# 3ragaming
 
 3ragaming.com's game coding projects
 
