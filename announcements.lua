@@ -34,6 +34,38 @@ local function show_intro(event)
 	end
 end
 
+function player_died(event)
+  player = event.player_index
+  if game.players[player].name ~= nil then
+    print("[PUPDATE] | "..game.players[player].name.." | died")
+  end
+end
+
+function player_respawned(event)
+  player = event.player_index
+  if game.players[player].name ~= nil then
+    print("[PUPDATE]| "..game.players[player].name.." | respawn")
+  end
+end
+
+function player_joined(event)
+  player = event.player_index
+  if game.players[player].name ~= nil then
+    print("[PUPDATE]| "..game.players[player].name.." | join")
+  end
+end
+
+function player_left(event)
+  player = event.player_index
+  if game.players[player].name ~= nil then
+    print("[PUPDATE]| "..game.players[player].name.." | leave")
+  end
+end
+
 -- Event handlers
+Event.register(defines.events.on_player_died, player_died)
+Event.register(defines.events.on_player_respawned, player_respawned)
+Event.register(defines.events.on_player_joined_game, player_joined)
+Event.register(defines.events.on_player_left_game, player_left)
 Event.register(defines.events.on_tick, show_announcement)
 Event.register(defines.events.on_player_created, show_intro)
