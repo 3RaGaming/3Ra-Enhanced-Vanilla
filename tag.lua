@@ -48,7 +48,7 @@ local function on_gui_click(event)
 	end
 	for _, role in pairs(roles) do
 		if (name == role.display_name) then
-			player.tag = role.display_name
+			player.tag = "[" .. role.display_name .. "]"
 		end
 	end
 end
