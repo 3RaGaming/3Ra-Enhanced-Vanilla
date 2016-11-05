@@ -36,6 +36,13 @@ function player_respawned(event)
 	player.insert { name = "firearm-magazine", count = 10 }
 end
 
+script.on_event(defines.events.on_research_finished, function (event)
+	local research = event.research
+	
+	research.force.recipes["logistic-chest-requester"].enabled=false
+	research.force.recipes["logistic-chest-active-provider"].enabled=false
+end)
+
 -- Event handlers
 Event.register(defines.events.on_player_created, player_joined)
 Event.register(defines.events.on_player_respawned, player_respawned)
