@@ -1,4 +1,4 @@
-local function showhealth(event)
+Event.register(defines.events.on_tick, showhealth, function(event)
 	for k, player in pairs(game.players) do
 		if player.connected then
 			if player.character then
@@ -22,7 +22,4 @@ local function showhealth(event)
 			end
 		end
 	end
-end
-
-
-Event.register(defines.events.on_tick, showhealth)
+end)
