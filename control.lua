@@ -36,7 +36,7 @@ function player_respawned(event)
 	player.insert { name = "firearm-magazine", count = 10 }
 end
 
-script.on_event(defines.events.on_research_finished, function (event)
+Event.register(defines.events.on_research_finished, function (event)
 	local research = event.research
 	
 	research.force.recipes["logistic-chest-requester"].enabled=false
