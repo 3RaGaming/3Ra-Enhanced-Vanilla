@@ -29,6 +29,10 @@ function expand_tag_gui(player)
 		local frame = player.gui.left.add { type = "frame", name = "tag-panel", caption = "Choose Tag" }
 		for _, role in pairs(roles) do
 			frame.add { type = "button", caption = role.display_name, name = role.display_name }
+			local frame = player.gui.left["tag-panel"]
+			if (frame) then
+				frame.destroy()
+			end
 		end
 	end
 end
