@@ -30,9 +30,6 @@ function expand_tag_gui(player)
 		for _, role in pairs(roles) do
 			frame.add { type = "button", caption = role.display_name, name = role.display_name }
 			local frame = player.gui.left["tag-panel"]
-			if (frame) then
-				frame.destroy()
-			end
 		end
 	end
 end
@@ -53,6 +50,7 @@ local function on_gui_click(event)
 	for _, role in pairs(roles) do
 		if (name == role.display_name) then
 			player.tag = "[" .. role.display_name .. "]"
+                        expand_tag_gui(player);
 		end
 	end
 end
