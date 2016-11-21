@@ -17,6 +17,7 @@ local roles = {
 	{ display_name = "Power" },
 	{ display_name = "Trains" },
 	{ display_name = "Science" },
+	{ display_name = "Robotics"},
 	{ display_name = "AFK" },
 	{ display_name = "Clear" }
 }

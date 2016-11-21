@@ -80,19 +80,19 @@ local function on_player_died(event)
 									inserted = chestinventory.insert(item)
 									transfered = transfered + 1
 								else --[[ If item cannot be inserted into current chest, create new chest]] --
-								savechest = spawn_chest(player, "steel-chest")
-								chestinventory = nil
-								if savechest ~= nil then
-									chestinventory = savechest.get_inventory(defines.inventory.chest)
-									if chestinventory ~= nil then
-										inserted = chestinventory.insert(item)
-										transfered = transfered + 1
-										chestId = chestId + 1
-										player.print("Storing items from inventory '" .. storeinventoriesstring[i] .. "(" .. tostring(inventoryid) .. ")' to chest #" .. tostring(chestId))
+									savechest = spawn_chest(player, "steel-chest")
+									chestinventory = nil
+									if savechest ~= nil then
+										chestinventory = savechest.get_inventory(defines.inventory.chest)
+										if chestinventory ~= nil then
+											inserted = chestinventory.insert(item)
+											transfered = transfered + 1
+											chestId = chestId + 1
+											player.print("Storing items from inventory '" .. storeinventoriesstring[i] .. "(" .. tostring(inventoryid) .. ")' to chest #" .. tostring(chestId))
+										end
+									else --[[ break if unable to spawn new chest ]] --
+										break
 									end
-								else --[[ break if unable to spawn new chest ]] --
-								break
-								end
 								end
 								--[[ If the entire item stack was not inserted, decrease the count and add the remainder into a new chest]] --
 								if item.count > inserted then
@@ -108,10 +108,26 @@ local function on_player_died(event)
 											player.print("Storing items from inventory '" .. storeinventoriesstring[i] .. "(" .. tostring(inventoryid) .. ")' to chest #" .. tostring(chestId))
 										end
 									else --[[ break if unable to spawn new chest ]] --
-									break
+										break
 									end
 								end
 							end
+							
+							if item.grid then
+								for k = 1, #chestinventory, 1 do
+									local itemstack = chestinventory[k]
+									if itemstack.valid and itemstack.valid_for_read and itemstack.grid and itemstack.name == item.name and next(itemstack.grid.equipment) == nil then
+										local fail = false
+										for _,equip in ipairs(item.grid.equipment) do
+											local name = equip.name
+											local pos = equip.position
+											if not itemstack.grid.put{name = name, position = pos} then fail = true end
+										end
+										break
+									end
+								end
+							end
+							
 						end
 					end --[[ end for #playerinventory ]] --
 				else --[[ break if unable to spawn new chest ]] --
