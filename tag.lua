@@ -45,12 +45,13 @@ local function on_gui_click(event)
 
 	if (name == "Clear") then
 		player.tag = ""
+		expand_tag_gui(player)
 		return
 	end
 	for _, role in pairs(roles) do
 		if (name == role.display_name) then
 			player.tag = "[" .. role.display_name .. "]"
-                        expand_tag_gui(player);
+			expand_tag_gui(player)
 		end
 	end
 end
