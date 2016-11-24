@@ -46,3 +46,16 @@ end)
 -- Event handlers
 Event.register(defines.events.on_player_created, player_joined)
 Event.register(defines.events.on_player_respawned, player_respawned)
+
+crossWidth = 400
+Event.register(defines.events.on_chunk_generated, function(event)
+    local tiles = {}
+    for x = event.area.left_top.x, event.area.bottom_right.x do
+        for y = event.area.left_top.y, event.area.bottom_right.y do
+            if (math.abs(x) > crossWidth / 2) and (math.abs(y) > crossWidth / 2) then
+                table.insert(tiles, {name = "out-of-map", position = {x,y})
+            end
+        end
+    end
+    event.surface.set_tiles(tiles)
+end
