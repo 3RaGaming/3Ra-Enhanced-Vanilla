@@ -16,7 +16,7 @@ require "rocket"
 require "bps"
 require "tag"
 require "autofill"
-
+require "locale/mapsettings/crosshatch"
 -- Give player starting items.
 -- @param event on_player_joined event
 function player_joined(event)
@@ -38,7 +38,7 @@ end
 
 Event.register(defines.events.on_research_finished, function (event)
 	local research = event.research
-	
+
 	research.force.recipes["logistic-chest-requester"].enabled=false
 	research.force.recipes["logistic-chest-active-provider"].enabled=false
 end)
@@ -46,16 +46,3 @@ end)
 -- Event handlers
 Event.register(defines.events.on_player_created, player_joined)
 Event.register(defines.events.on_player_respawned, player_respawned)
-
-crossWidth = 400
-Event.register(defines.events.on_chunk_generated, function(event)
-    local tiles = {}
-    for x = event.area.left_top.x, event.area.right_bottom.x do
-        for y = event.area.left_top.y, event.area.right_bottom.y do
-            if (math.abs(x) > crossWidth / 2) and (math.abs(y) > crossWidth / 2) then
-                table.insert(tiles, {name = "out-of-map", position = {x,y}})
-            end
-        end
-    end
-    event.surface.set_tiles(tiles)
-end)
