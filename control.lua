@@ -16,6 +16,8 @@ require "rocket"
 require "bps"
 require "tag"
 require "autofill"
+require "showhealth"
+require "locale/mapsettings/crosshatch"
 
 -- Give player starting items.
 -- @param event on_player_joined event
@@ -38,7 +40,7 @@ end
 
 Event.register(defines.events.on_research_finished, function (event)
 	local research = event.research
-	
+
 	research.force.recipes["logistic-chest-requester"].enabled=false
 	research.force.recipes["logistic-chest-active-provider"].enabled=false
 end)
