@@ -1,3 +1,6 @@
+-- Give players the option to set their preferred role as a tag
+-- A 3Ra Gaming creation
+
 function create_tag_gui(event)
 	local player = game.players[event.player_index]
 	if player.gui.top.tag == nil then
@@ -18,6 +21,7 @@ local roles = {
 	{ display_name = "Trains" },
 	{ display_name = "Science" },
 	{ display_name = "Robotics"},
+	{ display_name = "Admin"},
 	{ display_name = "AFK" },
 	{ display_name = "Clear" }
 }
@@ -29,7 +33,8 @@ function expand_tag_gui(player)
 	else
 		local frame = player.gui.left.add { type = "frame", name = "tag-panel", caption = "Choose Tag" }
 		for _, role in pairs(roles) do
-			frame.add { type = "button", caption = role.display_name, name = role.display_name }
+			if role.display_name ~= "Admin" then frame.add { type = "button", caption = role.display_name, name = role.display_name }
+			else if player.admin then frame.add { type = "button", caption = role.display_name, name = role.display_name } end
 		end
 	end
 end

@@ -1,3 +1,7 @@
+-- Automatically fill certain entities with fuel when placed
+-- A 3Ra Gaming revision
+-- Original Author: Nexela
+
 require "util"
 MOD = { NAME = "Autofill", IF = "af" }
 require "autofill_loader"

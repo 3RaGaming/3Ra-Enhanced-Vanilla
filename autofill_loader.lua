@@ -1,3 +1,7 @@
+-- Automatically fill certain entities with fuel when placed
+-- A 3Ra Gaming revision
+-- Original Author: Nexela
+
 local item_arrays_backup = {}
 local extension_items_backup = {}
 local defaultsets_backup = {}

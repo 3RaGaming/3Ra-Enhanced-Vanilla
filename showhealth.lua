@@ -1,3 +1,6 @@
+-- Show the health of a player as a small piece of colored text above their head
+-- A 3Ra Gaming creation
+
 local function showhealth (event)
 	if game.tick % 30 ~= 0 then return end
 	for k, player in pairs(game.players) do

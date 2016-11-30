@@ -1,3 +1,7 @@
+-- Automatically deconstruct mines when no more ore is available
+-- A 3Ra Gaming revision
+-- Original Author: mindmix
+
 autodeconstruct = autodeconstruct or {}
 autodeconstruct.remove_target = true
 
