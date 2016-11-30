@@ -1,5 +1,5 @@
 Event.register(defines.events.on_chunk_generated, function(event)
-    crossWidth = scenario.config.crossWidth
+    crossWidth = scenario.config.mapsettings.cross_width
     local tiles = {}
     for x = event.area.left_top.x, event.area.right_bottom.x - 1 do
         for y = event.area.left_top.y, event.area.right_bottom.y - 1 do
