@@ -49,17 +49,19 @@ function player_respawned(event)
 end
 
 function player_joined(event)
-  player = event.player_index
-  if game.players[player].name ~= nil then
-    print("[PUPDATE]| "..game.players[player].name.." | join")
-  end
+	local player = event.player_index
+	if game.players[player].name ~= nil then
+		print("[PUPDATE]| "..game.players[player].name.." | join | "..game.players[player].force.name) -- Print for human readability
+		print("PLAYER$join," .. player .. "," .. game.players[player].name .. "," .. game.players[player].force.name) -- Print for computer parsing
+	end
 end
 
 function player_left(event)
-  player = event.player_index
-  if game.players[player].name ~= nil then
-    print("[PUPDATE]| "..game.players[player].name.." | leave")
-  end
+	local player = event.player_index
+	if game.players[player].name ~= nil then
+		print("[PUPDATE]| "..game.players[player].name.." | leave | "..game.players[player].force.name) -- Print for human readability
+		print("PLAYER$leave," .. player .. "," .. game.players[player].name .. "," .. game.players[player].force.name) -- Print for computer parsing
+	end
 end
 
 -- Event handlers
