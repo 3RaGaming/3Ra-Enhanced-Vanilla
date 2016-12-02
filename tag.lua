@@ -33,8 +33,11 @@ function expand_tag_gui(player)
 	else
 		local frame = player.gui.left.add { type = "frame", name = "tag-panel", caption = "Choose Tag" }
 		for _, role in pairs(roles) do
-			if role.display_name ~= "Admin" then frame.add { type = "button", caption = role.display_name, name = role.display_name }
-			else if player.admin then frame.add { type = "button", caption = role.display_name, name = role.display_name } end
+			if role.display_name ~= "Admin" then
+				frame.add { type = "button", caption = role.display_name, name = role.display_name }
+			elseif player.admin then
+				frame.add { type = "button", caption = role.display_name, name = role.display_name }
+			end
 		end
 	end
 end

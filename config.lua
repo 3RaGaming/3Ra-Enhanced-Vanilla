@@ -1,9 +1,14 @@
 -- A 3Ra Gaming compilation
--- Number of seconds between each announcement
-scenario.config.announcement_delay = 595;
-scenario.config.score_delay = 8 -- delay in seconds before hiding rocket score window (0 = never show)
-scenario.config.autolaunch_default = false -- default autolaunch option
-scenario.config.mapsettings = scenario.config.mapsettings or {}
-scenario.config.mapsettings.cross_width = 128-- total width of cross
-scenario.config.mapsettings.spiral_land_width = 70
-scenario.config.mapsettings.spiral_water_width = 70
+Event.register(-1, function()
+    global.scenario = {}
+    global.scenario.config = {}
+    global.scenario.config.announcements_enabled = true -- if true announcements will be shown
+    global.scenario.config.announcement_delay = 595 -- number of seconds between each announcement
+    global.scenario.config.score_delay = 8 -- delay in seconds before hiding rocket score window (0 = never show)
+    global.scenario.config.autolaunch_default = false -- default autolaunch option
+    global.scenario.config.mapsettings = global.scenario.config.mapsettings or {}
+    global.scenario.config.mapsettings.cross_width = 200 -- total width of cross
+    global.scenario.config.mapsettings.spiral_land_width = 70 -- width of land in spiral
+    global.scenario.config.mapsettings.spiral_water_width = 70 -- width of water in spiral
+    global.scenario.custom_functions = {}
+end)

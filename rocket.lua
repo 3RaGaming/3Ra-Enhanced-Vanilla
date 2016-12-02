@@ -1,5 +1,5 @@
 -- Rocket Launch GUI [based off of the default freeplay scenario]
--- A 3Ra Gaming revision, original from Score Extended by binbinhfr 
+-- A 3Ra Gaming revision, original from Score Extended by binbinhfr
 default_precision = 1;
 unit_change_rocket_per_hour = 60;
 --------------------------------------------------------------------------------------
@@ -239,7 +239,7 @@ local function init_force(force)
 	force_mem.silos = force_mem.silos or {}
 	force_mem.combinators = force_mem.combinators or {}
 	if force_mem.count_tot == nil then force_mem.count_tot = false end
-	if force_mem.autolaunch == nil then force_mem.autolaunch = scenario.config.autolaunch_default end
+	if force_mem.autolaunch == nil then force_mem.autolaunch = global.scenario.config.autolaunch_default end
 end
 
 --------------------------------------------------------------------------------------
@@ -445,7 +445,7 @@ local function on_rocket_launched(event)
 
 	-- update stats and display window
 
-	force_mem.ticks_erase = game.tick + scenario.config.score_delay * 60
+	force_mem.ticks_erase = game.tick + global.scenario.config.score_delay * 60
 	if not previous_count then
 		force_mem.rockets_tot = force_mem.rockets_tot + 1
 		force_mem.rockets_count = force_mem.rockets_count + 1
@@ -453,7 +453,7 @@ local function on_rocket_launched(event)
 	force_mem.last_rocket_tick = game.tick
 	update_averages(force_mem)
 
-	if scenario.config.score_delay >= 0 then
+	if global.scenario.config.score_delay >= 0 then
 		for _, player in pairs(force.players) do
 			if player.connected then
 				local player_mem = global.player_mem[player.index]

@@ -1,8 +1,8 @@
 local tau=2*math.pi
 local atan2=math.atan2
 local sqrt = math.sqrt
-local landWidth = scenario.mapsettings.config.spiral_land_width
-local gap = landWidth + scenario.config.mapsettings.spiral_water_width
+local landWidth = global.scenario.mapsettings.config.spiral_land_width
+local gap = landWidth + global.scenario.config.mapsettings.spiral_water_width
 local function TileIsInSpiral(x,y)
 	return (sqrt(x*x+y*y)+atan2(y,x)*gap/tau)%gap<landWidth
 end

@@ -1,26 +1,28 @@
 -- Periodic announcements and intro messages
 -- A 3Ra Gaming creation
+Event.register(-1, function()
+	-- List of announcements that are printed periodically, going through the list.
+	global.announcements = {
+		{"msg-announce1"},
+		{"msg-announce2"}
+	}
 
--- List of announcements that are printed periodically, going through the list.
-local announcements = {
-	{"msg-announce1"},
-	{"msg-announce2"}
-}
-
--- List of introductory messages that players are shown upon joining (in order).
-local intros = {
-	{"msg-intro1"},
-	{"msg-intro2"},
-	{"msg-intro3"}
-}
+	-- List of introductory messages that players are shown upon joining (in order).
+	global.intros = {
+		{"msg-intro1"},
+		{"msg-intro2"},
+		{"msg-intro3"}
+	}
+end)
 -- Go through the announcements, based on the delay set in config
 -- @param event on_tick event
 local function show_announcement(event)
 	global.last_announcement = global.last_announcement or 0
-	if (game.tick / 60 - global.last_announcement > scenario.config.announcement_delay) then
+	if not global.scenario.config.announcements_enabled then return end
+	if (game.tick / 60 - global.last_announcement > global.scenario.config.announcement_delay) then
 		global.current_message = global.current_message or 1
-		game.print(announcements[global.current_message])
-		global.current_message = (global.current_message == #announcements) and 1 or global.current_message + 1
+		game.print(global.announcements[global.current_message])
+		global.current_message = (global.current_message == #global.announcements) and 1 or global.current_message + 1
 		global.last_announcement = game.tick / 60
 	end
 end
@@ -29,37 +31,37 @@ end
 -- @param event
 local function show_intro(event)
 	local player = game.players[event.player_index]
-	for i,v in ipairs(intros) do
+	for i,v in pairs(global.intros) do
 		player.print(v)
 	end
 end
 
 function player_died(event)
-  player = event.player_index
-  if game.players[player].name ~= nil then
-    print("[PUPDATE] | "..game.players[player].name.." | died")
-  end
+	player = event.player_index
+	if game.players[player].name ~= nil then
+		print("[PUPDATE] | "..game.players[player].name.." | died")
+	end
 end
 
 function player_respawned(event)
-  player = event.player_index
-  if game.players[player].name ~= nil then
-    print("[PUPDATE]| "..game.players[player].name.." | respawn")
-  end
+	player = event.player_index
+	if game.players[player].name ~= nil then
+		print("[PUPDATE]| "..game.players[player].name.." | respawn")
+	end
 end
 
 function player_joined(event)
-  player = event.player_index
-  if game.players[player].name ~= nil then
-    print("[PUPDATE]| "..game.players[player].name.." | join")
-  end
+	player = event.player_index
+	if game.players[player].name ~= nil then
+		print("[PUPDATE]| "..game.players[player].name.." | join")
+	end
 end
 
 function player_left(event)
-  player = event.player_index
-  if game.players[player].name ~= nil then
-    print("[PUPDATE]| "..game.players[player].name.." | leave")
-  end
+	player = event.player_index
+	if game.players[player].name ~= nil then
+		print("[PUPDATE]| "..game.players[player].name.." | leave")
+	end
 end
 
 -- Event handlers
