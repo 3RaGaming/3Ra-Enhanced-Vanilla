@@ -15,7 +15,7 @@ require "bps"
 require "tag"
 require "autofill"
 require "showhealth"
-require "locale/mapsettings/crosshatch"
+require "rso"
 
 -- Give player starting items.
 -- @param event on_player_joined event
