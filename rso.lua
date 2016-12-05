@@ -8,7 +8,6 @@ if not deterministic then rng = drand.sys_rand end
 mapGenSettings = require "rso-mapsettings"
 local logger = require 'locale/rso-libs/logger'
 local l = logger.new_logger()
-debug_enabled = true
 -- math shortcuts
 local floor = math.floor
 local abs = math.abs
