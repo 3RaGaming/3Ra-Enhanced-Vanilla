@@ -37,46 +37,13 @@ function player_respawned(event)
 	player.insert { name = "firearm-magazine", count = 10 }
 end
 
-
-function check_name(function_name)
-	for i,v in pairs(global.scenario.custom_functions) do
-		if v.name == function_name:lower() then
-			return i
-		end
-	end
-	return false
-end
-
-function add_global_event(event, func, name)
-	local p = game.player and game.player.print or print
-	if not event then p("Missing event parameter") return end
-	if not func then p("Missing function parameter") return end
-	if not name then p("Missing name parameter") return end
-	if check_name(name) then p("Function name \""..name.."\" already in use.") return end
-	table.insert(global.scenario.custom_functions, {event = event, name = name, func = func})
-	Event.register(event, func)
-end
-
-function remove_global_event(name)
-	local reg = check_name(name)
-	if reg then
-		Event.remove(global.scenario.custom_functions[reg].event, global.scenario.custom_functions[reg].func)
-		table.remove(global.scenario.custom_functions, reg)
-	else
-		game.print("Function with name \""..name.."\" not found")
-	end
-end
-
-Event.register(-2, function()
-	for i,v in pairs(global.scenario.custom_functions) do
-		Event.register(v.event, v.func)
-	end
-end)
-
 Event.register(defines.events.on_research_finished, function (event)
 	local research = event.research
-	research.force.recipes["logistic-chest-requester"].enabled=false
-	research.force.recipes["logistic-chest-active-provider"].enabled=false
+	if global.scenario.config.logistic_research_enabled then
+		research.force.technologies["logistic-system"].enabled=true
+	else
+	        research.force.technologies["logistic-system"].enabled=false
+	end
 end)
 
 -- Event handlers
