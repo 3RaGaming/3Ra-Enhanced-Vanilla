@@ -6,6 +6,7 @@ Event.register(-1, function()
     global.scenario.config.announcement_delay = 595 -- number of seconds between each announcement
     global.scenario.config.score_delay = 8 -- delay in seconds before hiding rocket score window (0 = never show)
     global.scenario.config.autolaunch_default = false -- default autolaunch option
+    global.scenario.config.logistic_research_enabled = false -- if true then research for requesters and active providers will be enabled.
     global.scenario.config.mapsettings = global.scenario.config.mapsettings or {}
     global.scenario.config.mapsettings.cross_width = 200 -- total width of cross
     global.scenario.config.mapsettings.spiral_land_width = 70 -- width of land in spiral
