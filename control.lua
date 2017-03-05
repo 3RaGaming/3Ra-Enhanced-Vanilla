@@ -2,13 +2,13 @@
 -- A 3Ra Gaming compilation
 -- config and event must be required first.
 require "util"
-require "locale/utils/event"
+require "utils/event"
 require "config"
-require "locale/utils/admin"
-require "locale/utils/undecorator"
-require "locale/utils/utils"
-require "locale/utils/gravestone"
-require "locale/utils/bot"
+require "utils/admin"
+require "utils/undecorator"
+require "utils/utils"
+require "utils/gravestone"
+require "utils/bot"
 require "autodeconstruct"
 require "announcements"
 require "rocket"
@@ -16,7 +16,7 @@ require "bps"
 require "tag"
 require "autofill"
 require "showhealth"
-require "rso"
+require "challenges/rso"
 
 -- Give player starting items.
 -- @param event on_player_joined event
