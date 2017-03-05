@@ -2,7 +2,7 @@
 -- A 3Ra Gaming revision
 -- Original Author: DaveMcW
 
-local BlueprintString = require "locale/blueprintstring/blueprintstring"
+local BlueprintString = require "blueprintstring/blueprintstring"
 BlueprintString.COMPRESS_STRINGS = true
 BlueprintString.LINE_LENGTH = 120
 

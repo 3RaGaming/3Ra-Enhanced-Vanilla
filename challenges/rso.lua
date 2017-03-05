@@ -1,12 +1,12 @@
 require "util"
-require "rso-config"
-require "locale/rso-libs/straight_world"
-local MB=require "locale/rso-libs/metaball"
-local drand = require 'locale/rso-libs/drand'
+require "rso-libs/rso-config"
+require "rso-libs/straight_world"
+local MB=require "rso-libs/metaball"
+local drand = require 'rso-libs/drand'
 local rng = drand.mwvc
 if not deterministic then rng = drand.sys_rand end
-mapGenSettings = require "rso-mapsettings"
-local logger = require 'locale/rso-libs/logger'
+mapGenSettings = require "rso-libs/rso-mapsettings"
+local logger = require 'rso-libs/logger'
 local l = logger.new_logger()
 -- math shortcuts
 local floor = math.floor
