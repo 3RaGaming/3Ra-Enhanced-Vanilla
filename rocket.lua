@@ -104,11 +104,11 @@ local function build_gui(player)
 		player_mem.lbl_score_av1 = gui2.add({ type = "label", name = "lbl_score_av1" })
 		player_mem.lbl_score_av2 = gui2.add({ type = "label", name = "lbl_score_av2" })
 		gui3 = gui2.add({ type = "flow", name = "flw_score", direction = "horizontal" })
-		gui3.add({ type = "button", name = "but_score_count_rst", caption = { "score-gui-reset" }, tooltip = { "score-gui-reset-tt" } })
+		gui3.add({ type = "button", name = "but_score_count_rst", caption = {"score-gui-reset"}, tooltip = {"score-gui-reset-tt"} })
 		player_mem.chk_score_count_tot = gui3.add({ type = "checkbox", name = "chk_score_count_tot", caption = { "score-gui-count-tot" }, state = false })
 		gui3.add({ type = "button", name = "but_score_prec_down", caption = "<", tooltip = { "score-gui-prec-down-tt" } })
 		gui3.add({ type = "button", name = "but_score_prec_up", caption = ">", tooltip = { "score-gui-prec-up-tt" } })
-		player_mem.chk_score_autolaunch = gui1.add({ type = "checkbox", name = "chk_score_autolaunch", caption = { "score-gui-autolaunch" }, state = false })
+		--player_mem.chk_score_autolaunch = gui1.add({ type = "checkbox", name = "chk_score_autolaunch", caption = { "score-gui-autolaunch" }, state = false })
 		player_mem.chk_score_autoshow = gui1.add({ type = "checkbox", name = "chk_score_autoshow", caption = { "score-gui-autoshow" }, state = false })
 	end
 end

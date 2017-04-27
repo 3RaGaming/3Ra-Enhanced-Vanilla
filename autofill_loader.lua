@@ -187,10 +187,12 @@ loader = {
   updateFuelArrays = function(tbl)
     tbl["fuels-all"] = {}
     tbl["fuels-high"] = {}
+    tbl["fuels-nuclear"] = {}
     local all = tbl["fuels-all"]
     local high = tbl["fuels-high"]
+    local nuclear = tbl["fuels-nuclear"]
     
-    if all or high then
+    if all or high or nuclear then
       local MINfuel_value = 8000000 -- Joules.
       local coal = game.item_prototypes.coal
       if coal and coal.fuel_value > 0 then
@@ -199,14 +201,19 @@ loader = {
       
       for name, item in pairs(game.item_prototypes) do
         if item.fuel_value > 0 then
-          if all then
-            all[#all + 1] = name
-          end
-          if item.fuel_value >= MINfuel_value then
-            if high then
-              high[#high + 1] = name
+          if item.name == "uranium-fuel-cell" then
+            nuclear[#nuclear + 1] = name
+          else
+            if all then
+              all[#all + 1] = name
+            end
+            if item.fuel_value >= MINfuel_value then
+              if high then
+                high[#high + 1] = name
+              end
             end
           end
+
         end
       end
     end
