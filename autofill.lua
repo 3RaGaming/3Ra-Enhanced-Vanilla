@@ -13,9 +13,10 @@ local order = {
 
 local vanilla_sets = {
 	["car"] = { priority = order.default, "fuels-all", "ammo-bullets" },
-	["tank"] = { priority = order.default, slots = { 2, 1, 1 }, "fuels-all", "ammo-bullets", "ammo-shells" },
-	["diesel-locomotive"] = { priority = order.default, group = "locomotives", slots = { 1 }, "fuels-all" },
+	["tank"] = { priority = order.default, slots = { 2, 1, 1, 1 }, "fuels-all", "ammo-bullets", "ammo-shells",  "ammo-flamethrower"},
+	["locomotive"] = { priority = order.default, group = "locomotives", slots = { 1 }, "fuels-all" },
 	["boiler"] = { priority = order.default, group = "burners", limits = { 5 }, "fuels-all" },
+	["nuclear-reactor"] = { priority = order.default, group = "burners", limits = { 5 }, "fuels-nuclear" },
 	["burner-inserter"] = { priority = order.default, group = "burners", limits = { 2 }, "fuels-all" },
 	["burner-mining-drill"] = { priority = order.default, group = "burners", limits = { 10 }, "fuels-all" },
 	["stone-furnace"] = { priority = order.default, group = "burners", limits = { 10 }, "fuels-all" },
@@ -25,11 +26,11 @@ local vanilla_sets = {
 
 
 local vanilla_items = {
-	["ammo-bullets"] = { "piercing-rounds-magazine", "firearm-magazine" },
-	["ammo-rockets"] = { "rocket", "explosive-rocket" },
-	["ammo-shells"] = { "explosive-cannon-shell", "cannon-shell" },
+	["ammo-bullets"] = { "uranium-rounds-magazine","piercing-rounds-magazine", "firearm-magazine" },
+	["ammo-rockets"] = { "atomic-bomb", "rocket", "explosive-rocket" },
+	["ammo-shells"] = { "explosive-uranium-cannon-shell", "uranium-cannon-shell", "explosive-cannon-shell", "cannon-shell" },
 	["ammo-shotgun"] = { "shotgun-shell", "piercing-shotgun-shell" },
-	["ammo-flamethrower"] = { "flame-thrower-ammo" },
+	["ammo-flamethrower"] = { "flamethrower-ammo" },
 }
 
 loader.addItemArray(vanilla_items)
@@ -217,8 +218,9 @@ function getDefaultSets()
 	return {
 		["car"] = { priority = order.default, global.fuels.all, global.ammo.bullets },
 		["tank"] = { priority = order.default, slots = { 2, 1, 1 }, global.fuels.all, global.ammo.bullets, global.ammo.shells },
-		["diesel-locomotive"] = { priority = order.default, slots = { 1 }, global.fuels.high },
+		["locomotive"] = { priority = order.default, slots = { 1 }, global.fuels.high },
 		["boiler"] = { priority = order.default, group = "burners", limits = { 5 }, global.fuels.high },
+	    ["nuclear-reactor"] = { priority = order.default, group = "burners", limits = { 5 }, "fuels-nuclear" },
 		["burner-inserter"] = { priority = order.default, group = "burners", limits = { 1 }, global.fuels.high },
 		["burner-mining-drill"] = { priority = order.default, group = "burners", limits = { 5 }, global.fuels.high },
 		["stone-furnace"] = { priority = order.default, group = "burners", limits = { 5 }, global.fuels.high },

@@ -95,21 +95,21 @@ local function build_gui(player)
 		local player_mem = global.player_mem[player.index]
 		gui1 = player.gui.left.add({ type = "frame", name = "frm_score", direction = "vertical" })
 		gui1 = gui1.add({ type = "flow", name = "flw_score", direction = "vertical" })
-		gui1.add({ type = "label", name = "lbl_score_tit", caption = { "score-gui-title" } })
+		gui1.add({ type = "label", name = "lbl_score_tit", caption = { "score-extended.score-gui-title" } })
 		player_mem.lbl_score_tot = gui1.add({ type = "label", name = "lbl_score_tot" })
 		gui2 = gui1.add({ type = "frame", name = "frm_score_count", direction = "vertical" })
 		gui2 = gui2.add({ type = "flow", name = "flw_score", direction = "vertical" })
 		player_mem.lbl_score_nb = gui2.add({ type = "label", name = "lbl_score_nb" })
-		player_mem.lbl_score_delay = gui2.add({ type = "label", name = "lbl_score_delay", tooltip = { "score-gui-delay-tt" } })
+		player_mem.lbl_score_delay = gui2.add({ type = "label", name = "lbl_score_delay", tooltip = { "score-extended.score-gui-delay-tt" } })
 		player_mem.lbl_score_av1 = gui2.add({ type = "label", name = "lbl_score_av1" })
 		player_mem.lbl_score_av2 = gui2.add({ type = "label", name = "lbl_score_av2" })
 		gui3 = gui2.add({ type = "flow", name = "flw_score", direction = "horizontal" })
-		gui3.add({ type = "button", name = "but_score_count_rst", caption = { "score-gui-reset" }, tooltip = { "score-gui-reset-tt" } })
-		player_mem.chk_score_count_tot = gui3.add({ type = "checkbox", name = "chk_score_count_tot", caption = { "score-gui-count-tot" }, state = false })
-		gui3.add({ type = "button", name = "but_score_prec_down", caption = "<", tooltip = { "score-gui-prec-down-tt" } })
-		gui3.add({ type = "button", name = "but_score_prec_up", caption = ">", tooltip = { "score-gui-prec-up-tt" } })
-		player_mem.chk_score_autolaunch = gui1.add({ type = "checkbox", name = "chk_score_autolaunch", caption = { "score-gui-autolaunch" }, state = false })
-		player_mem.chk_score_autoshow = gui1.add({ type = "checkbox", name = "chk_score_autoshow", caption = { "score-gui-autoshow" }, state = false })
+		gui3.add({ type = "button", name = "but_score_count_rst", caption = {"score-extended.score-gui-reset"}, tooltip = {"score-extended.score-gui-reset-tt"} })
+		player_mem.chk_score_count_tot = gui3.add({ type = "checkbox", name = "chk_score_count_tot", caption = { "score-extended.score-gui-count-tot" }, state = false })
+		gui3.add({ type = "button", name = "but_score_prec_down", caption = "<", tooltip = { "score-extended.score-gui-prec-down-tt" } })
+		gui3.add({ type = "button", name = "but_score_prec_up", caption = ">", tooltip = { "score-extended.score-gui-prec-up-tt" } })
+		--player_mem.chk_score_autolaunch = gui1.add({ type = "checkbox", name = "chk_score_autolaunch", caption = { "score-extended.score-gui-autolaunch" }, state = false })
+		player_mem.chk_score_autoshow = gui1.add({ type = "checkbox", name = "chk_score_autoshow", caption = { "score-extended.score-gui-autoshow" }, state = false })
 	end
 end
 
@@ -125,25 +125,25 @@ local function update_gui(player, force_mem)
 
 	local player_mem = global.player_mem[player.index]
 
-	player_mem.lbl_score_tot.caption = { "score-gui-tot", force_mem.rockets_tot }
+	player_mem.lbl_score_tot.caption = { "score-extended.score-gui-tot", force_mem.rockets_tot }
 
 	if force_mem.count_tot then
-		player_mem.lbl_score_nb.caption = { "score-gui-nb", force_mem.rockets_tot }
+		player_mem.lbl_score_nb.caption = { "score-extended.score-gui-nb", force_mem.rockets_tot }
 	else
-		player_mem.lbl_score_nb.caption = { "score-gui-nb", force_mem.rockets_count }
+		player_mem.lbl_score_nb.caption = { "score-extended.score-gui-nb", force_mem.rockets_count }
 	end
 
-	player_mem.lbl_score_delay.caption = { "score-gui-delay", string.format("%u", force_mem.rockets_count_delay) }
+	player_mem.lbl_score_delay.caption = { "score-extended.score-gui-delay", string.format("%u", force_mem.rockets_count_delay) }
 
 	local rpt = force_mem.rockets_per_time
 	local tpr = force_mem.time_per_rocket
 	local frm = "%." .. player_mem.precision .. "f"
 	if rpt < unit_change_rocket_per_hour then
-		player_mem.lbl_score_av1.caption = { "score-gui-av1h", string.format(frm, rpt) }
-		player_mem.lbl_score_av2.caption = { "score-gui-av2m", string.format(frm, tpr) }
+		player_mem.lbl_score_av1.caption = { "score-extended.score-gui-av1h", string.format(frm, rpt) }
+		player_mem.lbl_score_av2.caption = { "score-extended.score-gui-av2m", string.format(frm, tpr) }
 	else
-		player_mem.lbl_score_av1.caption = { "score-gui-av1m", string.format(frm, rpt / 60) }
-		player_mem.lbl_score_av2.caption = { "score-gui-av2s", string.format(frm, tpr * 60) }
+		player_mem.lbl_score_av1.caption = { "score-extended.score-gui-av1m", string.format(frm, rpt / 60) }
+		player_mem.lbl_score_av2.caption = { "score-extended.score-gui-av2s", string.format(frm, tpr * 60) }
 	end
 	player_mem.chk_score_count_tot.state = force_mem.count_tot
 	player_mem.chk_score_autolaunch.state = force_mem.autolaunch
