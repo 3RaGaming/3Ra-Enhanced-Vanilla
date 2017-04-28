@@ -9,7 +9,7 @@ require "locale/utils/utils"
 require "locale/utils/bot"
 require "autodeconstruct"
 require "announcements"
---require "rocket"  --Possible bug? Need to do more testing.
+require "rocket"
 require "tag"
 require "autofill"
 require "showhealth"

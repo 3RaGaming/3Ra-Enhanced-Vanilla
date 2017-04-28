@@ -3,15 +3,15 @@
 Event.register(-1, function()
 	-- List of announcements that are printed periodically, going through the list.
 	global.announcements = {
-		{"msg-announce1"},
-		{"msg-announce2"}
+		{"announcements.msg-announce1"},
+		{"announcements.msg-announce2"}
 	}
 
 	-- List of introductory messages that players are shown upon joining (in order).
 	global.intros = {
-		{"msg-intro1"},
-		{"msg-intro2"},
-		{"msg-intro3"}
+		{"announcements.msg-intro1"},
+		{"announcements.msg-intro2"},
+		{"announcements.msg-intro3"}
 	}
 end)
 -- Go through the announcements, based on the delay set in config
